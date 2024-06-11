@@ -8,12 +8,11 @@ const app = express()
 const port = Number(process.env.PORT) || 3000
 // 中間件: 跨來源資源共用
 const cors = require('cors')
+// 引入路由模組
+const routes = require('./routes')
 // 使用cors中間件
 app.use(cors())
-
-app.get('/', (req, res) => {
-  res.send('root')
-})
-
+// 掛載路由中間件
+app.use('/api', routes)
 // 啟動並監聽伺服器運行
 app.listen(port, () => console.info(`Server running on port: ${port}`))
