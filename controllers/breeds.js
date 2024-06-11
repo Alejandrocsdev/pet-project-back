@@ -1,6 +1,9 @@
+const { Breed } = require('../models')
+
 class BreedsController {
-  getBreeds = (req, res) => {
-    res.send('Get Breeds Route')
+  getBreeds = async (req, res) => {
+    const breeds = await Breed.findAll()
+    res.json({ status: 'Success', message: 'Get data successfully.', result: breeds })
   }
 }
 
