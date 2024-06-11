@@ -1,12 +1,15 @@
 const { Breed } = require('../models')
 
-// 引入成功回應模組
-const { sucRes } = require('../utils/response')
+const { sucRes } = require('../utils/customResponse')
 
 class BreedsController {
-  getBreeds = async (req, res) => {
-    const breeds = await Breed.findAll()
-    sucRes(res, 200, 'Get data successfully.', breeds)
+  getBreeds = async (req, res, next) => {
+    try {
+      const breeds = await Breed.findAll()
+      sucRes(res, 200, 'Get data successfully.', breeds)
+    } catch (err) {
+      next(err)
+    }
   }
 }
 

@@ -1,9 +1,8 @@
-// 引入回應模組
-const { errRes } = require('../utils/response')
+const CustomError = require('../utils/CustomError')
 
 function defaultRoute(req, res, next) {
-  errRes(res, 404, `Can't find ${req.originalUrl} on the server.`)
-  next()
+  const err = new CustomError(404, `Can't find ${req.originalUrl} on the server.`)
+  next(err)
 }
 
 module.exports = defaultRoute

@@ -35,15 +35,29 @@ PORT =
 
 <details>
 
-<summary><strong>Default Error</strong></summary>
+<summary><strong>General Error</strong></summary>
 
 ```
 {
-    "code": "404 Not Found",
-    "status": "Client Error",
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
     "message": "Can't find ${req.originalUrl} on the server."
 }
 ```
+```
+{
+    "status": "Database Error",
+    "statusType": "SequelizeDatabaseError, SequelizeConnectionError..."
+}
+```
+```
+{
+    "status": "Programming Error",
+    "statusType": "TypeError, ReferenceError..."
+}
+```
+
+
 
 </details>
 
@@ -62,15 +76,15 @@ PORT =
 
 ```
 {
-    "code": "200 OK",
-    "status": "Success",
+    "statusType": "Success",
+    "statusCode": "200 OK",
     "message": "Get data successfully.",
     "result": [
         {
             "id": 1,
-            "name": "Greater Swiss Mountain Dog",
-            "createdAt": "2024-06-11T02:12:30.000Z",
-            "updatedAt": "2024-06-11T02:12:30.000Z"
+            "name": "Pomeranian",
+            "createdAt": "2024-06-11T10:23:27.000Z",
+            "updatedAt": "2024-06-11T10:23:27.000Z"
         },
         {...}
     ]

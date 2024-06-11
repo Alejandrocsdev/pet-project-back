@@ -64,34 +64,27 @@ const statusList = [
   { code: 511, status: 'Network Authentication Required' }
 ]
 
-function statusCode(code) {
+function status(code) {
   const statusCode = statusList.find((status) => status.code === code)
   return statusCode ? `${code} ${statusCode.status}` : 'Unknown Status Code'
 }
 
-function status(code) {
+function type(code, name) {
+  const errName = name && name !== 'Error' ? ` (${name})` : ''
   switch (true) {
     // case code >= 100 && code < 200:
     //   return 'Informational'
     case code >= 200 && code < 300:
-      return 'Success'
+      return `Success${errName}`
     case code >= 300 && code < 400:
-      return 'Redirection'
+      return `Redirection${errName}`
     case code >= 400 && code < 500:
-      return 'Client Error'
+      return `Client Error${errName}`
     case code >= 500 && code < 600:
-      return 'Server Error'
+      return `Server Error${errName}`
     default:
       return 'Unknown Status Type'
   }
 }
 
-function sucRes(res, code, message, result) {
-  res.status(code).json({ code: statusCode(code), status: status(code), message, result })
-}
-
-function errRes(res, code, message) {
-  res.status(code).json({ code: statusCode(code), status: status(code), message })
-}
-
-module.exports = { errRes, sucRes }
+module.exports = { status, type }
