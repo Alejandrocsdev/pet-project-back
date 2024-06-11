@@ -1,9 +1,11 @@
 const { Breed } = require('../models')
 
+const sucRes = require('../utils/response')
+
 class BreedsController {
   getBreeds = async (req, res) => {
     const breeds = await Breed.findAll()
-    res.json({ status: 'Success', message: 'Get data successfully.', result: breeds })
+    sucRes(res, 200, 'Get data successfully.', breeds)
   }
 }
 
