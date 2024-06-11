@@ -2,9 +2,16 @@ const { Breed } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
+const CustomError = require('../utils/CustomError')
+
 const { sucRes } = require('../utils/customResponse')
 
-class BreedsController {
+const Validator = require('../Validator')
+
+class BreedsController extends Validator {
+  constructor() {
+    super()
+  }
   getBreeds = asyncError(async (req, res, next) => {
     const breeds = await Breed.findAll()
     sucRes(res, 200, 'Get all Breeds table data successfully.', breeds)
@@ -13,7 +20,8 @@ class BreedsController {
   getBreed = asyncError(async (req, res, next) => {
     const { breedId } = req.params
     const breed = await Breed.findByPk(breedId)
-    sucRes(res, 200, `Get Breeds table row from id ${breedId} successfully.`, breed)
+    this.validatePk(breed)
+    sucRes(res, 200, `Get Breeds table data from id ${breedId} successfully.`, breed)
   })
 }
 

@@ -3,10 +3,12 @@ const router = Router()
 
 const { breedsController } = require('../controllers')
 
-router.route('/')
-  .get(breedsController.getBreeds)
+const { checkId } = require('../middlewares')
 
-router.route('/:breedId')
-  .get(breedsController.getBreed)
+router.param('breedId', checkId)
+
+router.route('/').get(breedsController.getBreeds)
+
+router.route('/:breedId').get(breedsController.getBreed)
 
 module.exports = router

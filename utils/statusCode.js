@@ -70,7 +70,7 @@ function status(code) {
 }
 
 function type(code, name) {
-  const errName = name !== 'Error' ? ` (${name})` : ''
+  const errName = name && name !== 'Error' ? ` (${name})` : ''
   switch (true) {
     // case code >= 100 && code < 200:
     //   return 'Informational'

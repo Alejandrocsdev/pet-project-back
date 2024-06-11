@@ -9,11 +9,11 @@ const CustomError = require('../utils/CustomError')
 function globalError(err, req, res, next) {
   const name = err.name
   const code = err.code || 500
-  let message = err.message
+  const message = err.message
 
   if (err instanceof BaseError) {
-    message = 'Database or ORM Error'
-    return errRes(res, code, message, name)
+    const custMsg = 'Database or ORM Error'
+    return errRes(res, code, message, name, custMsg)
   }
 
   if (err instanceof CustomError) {
@@ -21,8 +21,8 @@ function globalError(err, req, res, next) {
   }
 
   if (err instanceof Error) {
-    message = 'Programming Error'
-    return errRes(res, code, message, name)
+    const custMsg = 'Programming Error'
+    return errRes(res, code, message, name, custMsg)
   }
 }
 
