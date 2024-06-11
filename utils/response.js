@@ -90,4 +90,8 @@ function sucRes(res, code, message, result) {
   res.status(code).json({ code: statusCode(code), status: status(code), message, result })
 }
 
-module.exports = sucRes
+function errRes(res, code, message) {
+  res.status(code).json({ code: statusCode(code), status: status(code), message })
+}
+
+module.exports = { errRes, sucRes }

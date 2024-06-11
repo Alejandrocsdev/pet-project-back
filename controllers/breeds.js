@@ -1,6 +1,7 @@
 const { Breed } = require('../models')
 
-const sucRes = require('../utils/response')
+// 引入成功回應模組
+const { sucRes } = require('../utils/response')
 
 class BreedsController {
   getBreeds = async (req, res) => {
