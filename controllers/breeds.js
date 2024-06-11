@@ -23,6 +23,13 @@ class BreedsController extends Validator {
     this.validatePk(breed)
     sucRes(res, 200, `Get Breeds table data from id ${breedId} successfully.`, breed)
   })
+
+  postBreed = asyncError(async (req, res, next) => {
+    const { name } = req.body
+    const breed = await Breed.create({ name })
+    
+    sucRes(res, 201, `Created new Breeds table data successfully.`, breed)
+  })
 }
 
 module.exports = new BreedsController()

@@ -7,8 +7,11 @@ const { checkId } = require('../middlewares')
 
 router.param('breedId', checkId)
 
-router.route('/').get(breedsController.getBreeds)
+router.route('/')
+  .get(breedsController.getBreeds)
+  .post(breedsController.postBreed)
 
-router.route('/:breedId').get(breedsController.getBreed)
+router.route('/:breedId')
+  .get(breedsController.getBreed)
 
 module.exports = router

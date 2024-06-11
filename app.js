@@ -14,6 +14,8 @@ const routes = require('./routes')
 const { defaultRoute, globalError } = require('./middlewares')
 // 使用cors中間件
 app.use(cors())
+// 解析請求主體的 JSON 格式資料
+app.use(express.json())
 // 掛載路由中間件
 app.use('/api', routes)
 // 設數(其他)路由中間件
