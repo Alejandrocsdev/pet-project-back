@@ -4,8 +4,6 @@
 
 const { processedRoads } = require('./roadsData')
 
-console.log(processedRoads.length)
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Roads', processedRoads)
