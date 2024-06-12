@@ -313,18 +313,8 @@ No custom operational error.
         {
             "id": 1,
             "name": "宜蘭縣",
-            "createdAt": "2024-06-12T12:11:22.000Z",
-            "updatedAt": "2024-06-12T12:11:22.000Z",
-            "districts": [
-                {
-                    "id": 12,
-                    "name": "蘇澳鎮",
-                    "cityId": 1,
-                    "createdAt": "2024-06-12T12:11:22.000Z",
-                    "updatedAt": "2024-06-12T12:11:22.000Z"
-                },
-                {...}
-            ]
+            "createdAt": "2024-06-12T12:48:58.000Z",
+            "updatedAt": "2024-06-12T12:48:58.000Z"
         },
         {...}
     ]
@@ -346,6 +336,13 @@ No custom operational error.
 
 **Parameter :** `cityId`
 
+**Body :**
+
+| Field  | Required | Type    | Note        |
+| ------ | -------- | ------- | ----------- |
+| limit  | X        | str/int | default: 10 |
+| offset | X        | str/int | default: 0  |
+
 **Response (Success) :**
 
 ```
@@ -356,18 +353,21 @@ No custom operational error.
     "result": {
         "id": 1,
         "name": "宜蘭縣",
-        "createdAt": "2024-06-12T12:11:22.000Z",
-        "updatedAt": "2024-06-12T12:11:22.000Z",
+        "createdAt": "2024-06-12T12:48:58.000Z",
+        "updatedAt": "2024-06-12T12:48:58.000Z",
         "districts": [
             {
-                "id": 1,
-                "name": "三星鄉",
+                "id": 2,
+                "name": "大同鄉",
                 "cityId": 1,
-                "createdAt": "2024-06-12T12:11:22.000Z",
-                "updatedAt": "2024-06-12T12:11:22.000Z"
+                "createdAt": "2024-06-12T12:48:58.000Z",
+                "updatedAt": "2024-06-12T12:48:58.000Z"
             },
             {...}
-        ]
+        ],
+        "total": 12,
+        "limit": 2,
+        "offset": 1
     }
 }
 ```
@@ -379,6 +379,19 @@ No custom operational error.
     "statusType": "Client Error",
     "statusCode": "400 Bad Request",
     "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Limit must be a number"
+    "message": "Limit must be greater than or equal to 0"
+    "message": "Limit must be an integer"
+    "message": "offset must be a number"
+    "message": "offset must be greater than or equal to 0"
+    "message": "offset must be an integer"
 }
 ```
 
@@ -397,6 +410,13 @@ No custom operational error.
 <summary style="color: black; background: #f5f5f5;">
 <strong>GET /address/districts</strong></summary>
 
+**Body :**
+
+| Field  | Required | Type    | Note        |
+| ------ | -------- | ------- | ----------- |
+| limit  | X        | str/int | default: 10 |
+| offset | X        | str/int | default: 0  |
+
 **Response (Success) :**
 
 ```
@@ -406,21 +426,11 @@ No custom operational error.
     "message": "Get all Districts table data successfully.",
     "result": [
         {
-            "id": 1,
-            "name": "三星鄉",
+            "id": 2,
+            "name": "大同鄉",
             "cityId": 1,
-            "createdAt": "2024-06-12T12:11:22.000Z",
-            "updatedAt": "2024-06-12T12:11:22.000Z",
-            "roads": [
-                {
-                    "id": 251,
-                    "name": "雙賢路",
-                    "districtId": 1,
-                    "createdAt": "2024-06-12T12:11:22.000Z",
-                    "updatedAt": "2024-06-12T12:11:22.000Z"
-                },
-                {...}
-            ]
+            "createdAt": "2024-06-12T12:48:58.000Z",
+            "updatedAt": "2024-06-12T12:48:58.000Z"
         },
         {...}
     ]
@@ -430,7 +440,16 @@ No custom operational error.
 **Response (Error) :**
 
 ```
-No custom operational error.
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Limit must be a number"
+    "message": "Limit must be greater than or equal to 0"
+    "message": "Limit must be an integer"
+    "message": "offset must be a number"
+    "message": "offset must be greater than or equal to 0"
+    "message": "offset must be an integer"
+}
 ```
 
 </details>
@@ -441,6 +460,13 @@ No custom operational error.
 <strong>GET /address/districts/:districtId</strong></summary>
 
 **Parameter :** `districtId`
+
+**Body :**
+
+| Field  | Required | Type    | Note        |
+| ------ | -------- | ------- | ----------- |
+| limit  | X        | str/int | default: 10 |
+| offset | X        | str/int | default: 0  |
 
 **Response (Success) :**
 
@@ -453,18 +479,21 @@ No custom operational error.
         "id": 1,
         "name": "三星鄉",
         "cityId": 1,
-        "createdAt": "2024-06-12T12:11:22.000Z",
-        "updatedAt": "2024-06-12T12:11:22.000Z",
+        "createdAt": "2024-06-12T12:48:58.000Z",
+        "updatedAt": "2024-06-12T12:48:58.000Z",
         "roads": [
             {
-                "id": 1,
-                "name": "廣洲仔路",
+                "id": 2,
+                "name": "人和一路",
                 "districtId": 1,
-                "createdAt": "2024-06-12T12:11:22.000Z",
-                "updatedAt": "2024-06-12T12:11:22.000Z"
+                "createdAt": "2024-06-12T12:48:58.000Z",
+                "updatedAt": "2024-06-12T12:48:58.000Z"
             },
             {...}
-        ]
+        ],
+        "total": 251,
+        "limit": 2,
+        "offset": 1
     }
 }
 ```
@@ -476,6 +505,19 @@ No custom operational error.
     "statusType": "Client Error",
     "statusCode": "400 Bad Request",
     "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Limit must be a number"
+    "message": "Limit must be greater than or equal to 0"
+    "message": "Limit must be an integer"
+    "message": "offset must be a number"
+    "message": "offset must be greater than or equal to 0"
+    "message": "offset must be an integer"
 }
 ```
 
@@ -494,6 +536,13 @@ No custom operational error.
 <summary style="color: black; background: #f5f5f5;">
 <strong>GET /address/roads</strong></summary>
 
+**Body :**
+
+| Field  | Required | Type    | Note        |
+| ------ | -------- | ------- | ----------- |
+| limit  | X        | str/int | default: 10 |
+| offset | X        | str/int | default: 0  |
+
 **Response (Success) :**
 
 ```
@@ -503,11 +552,11 @@ No custom operational error.
     "message": "Get all Roads table data successfully.",
     "result": [
         {
-            "id": 1,
-            "name": "廣洲仔路",
+            "id": 2,
+            "name": "人和一路",
             "districtId": 1,
-            "createdAt": "2024-06-12T12:11:22.000Z",
-            "updatedAt": "2024-06-12T12:11:22.000Z"
+            "createdAt": "2024-06-12T12:48:58.000Z",
+            "updatedAt": "2024-06-12T12:48:58.000Z"
         },
         {...}
     ]
@@ -517,7 +566,16 @@ No custom operational error.
 **Response (Error) :**
 
 ```
-No custom operational error.
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Limit must be a number"
+    "message": "Limit must be greater than or equal to 0"
+    "message": "Limit must be an integer"
+    "message": "offset must be a number"
+    "message": "offset must be greater than or equal to 0"
+    "message": "offset must be an integer"
+}
 ```
 
 </details>
