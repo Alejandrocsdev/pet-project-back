@@ -13,5 +13,6 @@ router.route('/')
 
 router.route('/:breedId')
   .get(breedsController.getBreed)
+  .put(breedsController.putBreed)
 
 module.exports = router

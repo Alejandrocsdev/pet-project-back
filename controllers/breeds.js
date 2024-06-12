@@ -42,6 +42,18 @@ class BreedsController extends Validator {
 
     sucRes(res, 201, `Created new Breeds table data successfully.`, breed)
   })
+
+  putBreed = asyncError(async (req, res, next) => {
+    this.validateBody(req.body)
+
+    const { name } = req.body
+
+    const { breedId } = req.params
+
+    await Breed.update({ name }, { where: { id: breedId } })
+
+    sucRes(res, 200, `Updated table data with id ${breedId} successfully.`)
+  })
 }
 
 module.exports = new BreedsController()

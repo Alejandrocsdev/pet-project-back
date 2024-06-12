@@ -44,6 +44,7 @@ PORT =
     "message": "Can't find ${req.originalUrl} on the server."
 }
 ```
+
 ```
 {
     "statusType": "Server Error (SequelizeDatabaseError, SequelizeConnectionError...)",
@@ -51,6 +52,7 @@ PORT =
     "message": "Database or ORM Error"
 }
 ```
+
 ```
 {
     "statusType": "Server Error (TypeError, ReferenceError...)",
@@ -137,7 +139,13 @@ No custom operational error.
 <details>
 
 <summary style="color: black; background: #f5f5f5;">
-<strong>POST /breeds/</strong></summary>
+<strong>POST /breeds</strong></summary>
+
+**Body :**
+
+| Field | Required | Type | Note   |
+| ----- | -------- | ---- | ------ |
+| name  | O        | str  | unique |
 
 **Response (Success) :**
 
@@ -164,6 +172,57 @@ No custom operational error.
     "message": "Name is required"
     "message": "Name must be a string"
     "message": "Name is not allowed to be empty"
+}
+```
+```
+{
+    "statusType": "Server Error (SequelizeUniqueConstraintError)",
+    "statusCode": "500 Internal Server Error",
+    "message": "The value '${value}' for the field 'name' already exists."
+}
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>PUT /breeds/:breedId</strong></summary>
+
+**Parameter :** `breedId`
+
+**Body :**
+
+| Field | Required | Type | Note   |
+| ----- | -------- | ---- | ------ |
+| name  | O        | str  | unique |
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Updated table data with id 1 successfully."
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Name is required"
+    "message": "Name must be a string"
+    "message": "Name is not allowed to be empty"
+}
+```
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter id."
 }
 ```
 ```
