@@ -9,7 +9,7 @@ router.param('petId', checkId)
 
 router.route('/')
   .get(petsController.getPets)
-  // .post(petsController.postPet)
+  .post(petsController.postPet)
 
 router.route('/:petId')
   .get(petsController.getPet)

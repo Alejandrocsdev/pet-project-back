@@ -8,12 +8,18 @@ const Validator = require('../Validator')
 
 const Joi = require('joi')
 
-// const schema = Joi.object({ name: Joi.string().required() })
+const schema = Joi.object({
+  name: Joi.string().required(),
+  age: Joi.number().integer().positive().required(),
+  size: Joi.valid('small', 'medium', 'large').required(),
+  image: Joi.string().allow(''),
+  breedId: Joi.number().integer().positive().required()
+})
 
 class PetsController extends Validator {
-  // constructor() {
-  //   super(schema)
-  // }
+  constructor() {
+    super(schema)
+  }
 
   getPets = asyncError(async (req, res, next) => {
     const pets = await Pet.findAll({
@@ -33,14 +39,17 @@ class PetsController extends Validator {
     sucRes(res, 200, `Get Pets table data from id ${petId} successfully.`, pet)
   })
 
-  // postPet = asyncError(async (req, res, next) => {
-  //   this.validateBody(req.body)
-  //   const { name } = req.body
+  postPet = asyncError(async (req, res, next) => {
+    this.validateBody(req.body)
+    const { name, age, size, image, breedId } = req.body
 
-  //   const pet = await Pet.create({ name })
+    const breed = await Breed.findByPk(breedId)
+    this.validatePk(breed)
 
-  //   sucRes(res, 201, `Created new Pets table data successfully.`, pet)
-  // })
+    const pet = await Pet.create({ name, age, size, image, breedId })
+
+    sucRes(res, 201, `Created new Pets table data successfully.`, pet)
+  })
 
   // putPet = asyncError(async (req, res, next) => {
   //   this.validateBody(req.body)

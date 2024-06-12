@@ -129,8 +129,16 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
 }
 ```
 
@@ -174,6 +182,7 @@ No custom operational error.
     "message": "Name is not allowed to be empty"
 }
 ```
+
 ```
 {
     "statusType": "Server Error (SequelizeUniqueConstraintError)",
@@ -218,13 +227,23 @@ No custom operational error.
     "message": "Name is not allowed to be empty"
 }
 ```
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
 ```
 {
     "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
 }
 ```
+
 ```
 {
     "statusType": "Server Error (SequelizeUniqueConstraintError)",
@@ -257,8 +276,16 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
 }
 ```
 
@@ -350,8 +377,16 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
 }
 ```
 
@@ -439,8 +474,16 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
 }
 ```
 
@@ -508,8 +551,16 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
 }
 ```
 
@@ -601,8 +652,88 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
-    "message": "Table data not found with parameter id."
+    "message": "Table data not found with parameter or body id."
+}
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>POST /pets</strong></summary>
+
+**Body :**
+
+| Field   | Required | Type | Note                 |
+| ------- | -------- | ---- | -------------------- |
+| name    | O        | str  |                      |
+| age     | O        | int  | positive             |
+| size    | O        | str  | small, medium, large |
+| image   | X        | str  |                      |
+| breedId | O        | int  |                      |
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "201 Created",
+    "message": "Created new Breeds table data successfully.",
+    "result": {
+        "id": 12,
+        "name": "Curly-Coated Retriever",
+        "updatedAt": "2024-06-12T02:57:51.042Z",
+        "createdAt": "2024-06-12T02:57:51.042Z"
+    }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Name is required"
+    "message": "Name must be a string"
+    "message": "Name is not allowed to be empty"
+    "message": "Age is required"
+    "message": "Age must be an integer"
+    "message": "Age must be a positive number"
+    "message": "Age must be a number"
+    "message": "Size must be one of [small, medium, large]"
+    "message": "Image must be a string"
+    "message": "breedId is required"
+    "message": "breedId must be an integer"
+    "message": "breedId must be a positive number"
+    "message": "breedId must be a number"
+}
+```
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter or body id."
+}
+
+```
+
+```
+{
+    "statusType": "Server Error (SequelizeUniqueConstraintError)",
+    "statusCode": "500 Internal Server Error",
+    "message": "The value '${value}' for the field 'name' already exists."
 }
 ```
 

@@ -21,10 +21,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM('small', 'medium', 'large')
       },
-      image: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
+      image: Sequelize.STRING,
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

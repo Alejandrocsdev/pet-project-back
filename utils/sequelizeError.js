@@ -5,6 +5,7 @@
 // SequelizeEagerLoadingError
 // SequelizeDatabaseError
 // SequelizeConnectionError
+// SequelizeForeignKeyConstraintError
 
 function sequelizeError(errors) {
   const type = errors[0].type

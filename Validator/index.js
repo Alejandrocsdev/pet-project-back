@@ -7,7 +7,7 @@ class Validator {
 
   validatePk(data) {
     if (!data) {
-      throw new CustomError(404, 'Table data not found with parameter id.')
+      throw new CustomError(404, 'Table data not found with parameter or body id.')
     }
   }
 
