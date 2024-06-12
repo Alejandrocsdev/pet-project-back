@@ -51,22 +51,23 @@ class PetsController extends Validator {
     sucRes(res, 201, `Created new Pets table data successfully.`, pet)
   })
 
-  // putPet = asyncError(async (req, res, next) => {
-  //   this.validateBody(req.body)
-  //   const { name } = req.body
+  putPet = asyncError(async (req, res, next) => {
+    this.validateBody(req.body)
+    const { name, age, size, image, breedId } = req.body
 
-  //   const { petId } = req.params
-  //   const [pet, preserved] = await Promise.all([
-  //     Pet.findByPk(petId),
-  //     Pet.findOne({ where: { name: 'Other' } })
-  //   ])
-  //   this.validatePk(pet)
-  //   this.validatePreserved(pet.name, preserved.name)
+    const { petId } = req.params
 
-  //   await Pet.update({ name }, { where: { id: petId } })
+    const [pet, breed] = await Promise.all([
+      Pet.findByPk(petId),
+      Breed.findByPk(breedId)
+    ])
+    this.validatePk(pet)
+    this.validatePk(breed)
 
-  //   sucRes(res, 200, `Updated table data with id ${petId} successfully.`)
-  // })
+    await Pet.update({ name, age, size, image, breedId }, { where: { id: petId } })
+
+    sucRes(res, 200, `Updated table data with id ${petId} successfully.`)
+  })
 
   // deletePet = asyncError(async (req, res, next) => {
   //   const { petId } = req.params

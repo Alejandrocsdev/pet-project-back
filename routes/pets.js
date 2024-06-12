@@ -13,7 +13,7 @@ router.route('/')
 
 router.route('/:petId')
   .get(petsController.getPet)
-//   .put(petsController.putPet)
+  .put(petsController.putPet)
 //   .delete(petsController.deletePet)
 
 module.exports = router
