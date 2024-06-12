@@ -265,3 +265,333 @@ No custom operational error.
 </details>
 
 </details>
+
+<details>
+
+<summary><strong>Address</strong></summary>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /address/cities</strong></summary>
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get all Cities table data successfully.",
+    "result": [
+        {
+            "id": 1,
+            "name": "宜蘭縣",
+            "createdAt": "2024-06-12T12:11:22.000Z",
+            "updatedAt": "2024-06-12T12:11:22.000Z",
+            "districts": [
+                {
+                    "id": 12,
+                    "name": "蘇澳鎮",
+                    "cityId": 1,
+                    "createdAt": "2024-06-12T12:11:22.000Z",
+                    "updatedAt": "2024-06-12T12:11:22.000Z"
+                },
+                {...}
+            ]
+        },
+        {...}
+    ]
+}
+```
+
+**Response (Error) :**
+
+```
+No custom operational error.
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /address/cities/:cityId</strong></summary>
+
+**Parameter :** `cityId`
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get Breeds table data from id 1 successfully.",
+    "result": {
+        "id": 1,
+        "name": "宜蘭縣",
+        "createdAt": "2024-06-12T12:11:22.000Z",
+        "updatedAt": "2024-06-12T12:11:22.000Z",
+        "districts": [
+            {
+                "id": 1,
+                "name": "三星鄉",
+                "cityId": 1,
+                "createdAt": "2024-06-12T12:11:22.000Z",
+                "updatedAt": "2024-06-12T12:11:22.000Z"
+            },
+            {...}
+        ]
+    }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter id."
+}
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /address/districts</strong></summary>
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get all Districts table data successfully.",
+    "result": [
+        {
+            "id": 1,
+            "name": "三星鄉",
+            "cityId": 1,
+            "createdAt": "2024-06-12T12:11:22.000Z",
+            "updatedAt": "2024-06-12T12:11:22.000Z",
+            "roads": [
+                {
+                    "id": 251,
+                    "name": "雙賢路",
+                    "districtId": 1,
+                    "createdAt": "2024-06-12T12:11:22.000Z",
+                    "updatedAt": "2024-06-12T12:11:22.000Z"
+                },
+                {...}
+            ]
+        },
+        {...}
+    ]
+}
+```
+
+**Response (Error) :**
+
+```
+No custom operational error.
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /address/districts/:districtId</strong></summary>
+
+**Parameter :** `districtId`
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get Districts table data from id 1 successfully.",
+    "result": {
+        "id": 1,
+        "name": "三星鄉",
+        "cityId": 1,
+        "createdAt": "2024-06-12T12:11:22.000Z",
+        "updatedAt": "2024-06-12T12:11:22.000Z",
+        "roads": [
+            {
+                "id": 1,
+                "name": "廣洲仔路",
+                "districtId": 1,
+                "createdAt": "2024-06-12T12:11:22.000Z",
+                "updatedAt": "2024-06-12T12:11:22.000Z"
+            },
+            {...}
+        ]
+    }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter id."
+}
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /address/roads</strong></summary>
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get all Roads table data successfully.",
+    "result": [
+        {
+            "id": 1,
+            "name": "廣洲仔路",
+            "districtId": 1,
+            "createdAt": "2024-06-12T12:11:22.000Z",
+            "updatedAt": "2024-06-12T12:11:22.000Z"
+        },
+        {...}
+    ]
+}
+```
+
+**Response (Error) :**
+
+```
+No custom operational error.
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /address/roads/:roadId</strong></summary>
+
+**Parameter :** `roadId`
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get Roads table data from id 1 successfully.",
+    "result": {
+        "id": 1,
+        "name": "廣洲仔路",
+        "districtId": 1,
+        "createdAt": "2024-06-12T12:11:22.000Z",
+        "updatedAt": "2024-06-12T12:11:22.000Z"
+    }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter id."
+}
+```
+
+</details>
+
+</details>
+
+<details>
+
+<summary><strong>Pets</strong></summary>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /pets</strong></summary>
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get all Pets table data successfully.",
+    "result": [
+        {
+            "id": 1,
+            "name": "Pauline",
+            "age": 5,
+            "size": "large",
+            "image": "https://loremflickr.com/320/240/dog/?random=6.581622650018892",
+            "createdAt": "2024-06-12T12:11:23.000Z",
+            "updatedAt": "2024-06-12T12:11:23.000Z"
+        },
+        {...}
+    ]
+}
+```
+
+**Response (Error) :**
+
+```
+No custom operational error.
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>GET /pets/:petId</strong></summary>
+
+**Parameter :** `petId`
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Get Pets table data from id 1 successfully.",
+    "result": {
+        "id": 1,
+        "name": "Pauline",
+        "age": 5,
+        "size": "large",
+        "image": "https://loremflickr.com/320/240/dog/?random=6.581622650018892",
+        "createdAt": "2024-06-12T12:11:23.000Z",
+        "updatedAt": "2024-06-12T12:11:23.000Z"
+    }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter id."
+}
+```
+
+</details>
+
+</details>

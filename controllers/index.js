@@ -1,4 +1,5 @@
+const petsController = require('./pets')
 const breedsController = require('./breeds')
 const addressController = require('./address')
 
-module.exports = { breedsController, addressController }
+module.exports = { petsController, breedsController, addressController }
