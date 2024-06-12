@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   Breed.init(
     {
       name: {
+        allowNull: false,
         type: DataTypes.STRING,
         unique: true
       }

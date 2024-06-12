@@ -13,6 +13,8 @@ function sequelizeError(errors) {
 
   if (type === 'unique violation') {
     return `The value '${value}' for the field '${field}' already exists.`
+  } else if (type === 'notNull Violation') {
+    return `Field '${field}' cannot be null.`
   }
 }
 

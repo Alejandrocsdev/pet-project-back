@@ -20,6 +20,12 @@ class Validator {
       throw new CustomError(400, message)
     }
   }
+
+  validatePreserved(data, preserved) {
+    if(data === preserved) {
+      throw new CustomError(400, `Value '${preserved}' is a preserved field, cannot be alter.`)
+    }
+  }
 }
 
 module.exports = Validator

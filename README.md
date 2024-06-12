@@ -235,4 +235,33 @@ No custom operational error.
 
 </details>
 
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>DELETE /breeds/:breedId</strong></summary>
+
+**Parameter :** `breedId`
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Deleted table data with id 1 successfully."
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter id."
+}
+```
+
+</details>
+
 </details>
