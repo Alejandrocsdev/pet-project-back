@@ -536,12 +536,19 @@ No custom operational error.
     "result": [
         {
             "id": 1,
-            "name": "Pauline",
-            "age": 5,
+            "name": "Amiya",
+            "age": 2,
             "size": "large",
-            "image": "https://loremflickr.com/320/240/dog/?random=6.581622650018892",
-            "createdAt": "2024-06-12T12:11:23.000Z",
-            "updatedAt": "2024-06-12T12:11:23.000Z"
+            "image": "https://loremflickr.com/320/240/dog/?random=17.28810770319662",
+            "breedId": 11,
+            "createdAt": "2024-06-12T12:48:58.000Z",
+            "updatedAt": "2024-06-12T12:48:58.000Z",
+            "breed": {
+                "id": 11,
+                "name": "Other",
+                "createdAt": "2024-06-12T12:48:55.000Z",
+                "updatedAt": "2024-06-12T12:48:55.000Z"
+            }
         },
         {...}
     ]
@@ -572,12 +579,19 @@ No custom operational error.
     "message": "Get Pets table data from id 1 successfully.",
     "result": {
         "id": 1,
-        "name": "Pauline",
-        "age": 5,
+        "name": "Amiya",
+        "age": 2,
         "size": "large",
-        "image": "https://loremflickr.com/320/240/dog/?random=6.581622650018892",
-        "createdAt": "2024-06-12T12:11:23.000Z",
-        "updatedAt": "2024-06-12T12:11:23.000Z"
+        "image": "https://loremflickr.com/320/240/dog/?random=17.28810770319662",
+        "breedId": 11,
+        "createdAt": "2024-06-12T12:48:58.000Z",
+        "updatedAt": "2024-06-12T12:48:58.000Z",
+        "breed": {
+            "id": 11,
+            "name": "Other",
+            "createdAt": "2024-06-12T12:48:55.000Z",
+            "updatedAt": "2024-06-12T12:48:55.000Z"
+        }
     }
 }
 ```

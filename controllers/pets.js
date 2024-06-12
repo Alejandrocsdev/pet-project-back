@@ -1,4 +1,4 @@
-const { Pet } = require('../models')
+const { Pet, Breed } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
@@ -16,14 +16,18 @@ class PetsController extends Validator {
   // }
 
   getPets = asyncError(async (req, res, next) => {
-    const pets = await Pet.findAll()
+    const pets = await Pet.findAll({
+      include: [{ model: Breed, as: 'breed' }]
+    })
 
     sucRes(res, 200, 'Get all Pets table data successfully.', pets)
   })
 
   getPet = asyncError(async (req, res, next) => {
     const { petId } = req.params
-    const pet = await Pet.findByPk(petId)
+    const pet = await Pet.findByPk(petId, {
+      include: [{ model: Breed, as: 'breed' }]
+    })
     this.validatePk(pet)
 
     sucRes(res, 200, `Get Pets table data from id ${petId} successfully.`, pet)
