@@ -134,4 +134,46 @@ No custom operational error.
 
 </details>
 
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>POST /breeds/</strong></summary>
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "201 Created",
+    "message": "Created new Breeds table data successfully.",
+    "result": {
+        "id": 12,
+        "name": "Curly-Coated Retriever",
+        "updatedAt": "2024-06-12T02:57:51.042Z",
+        "createdAt": "2024-06-12T02:57:51.042Z"
+    }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Name is required"
+    "message": "Name must be a string"
+    "message": "Name is not allowed to be empty"
+}
+```
+```
+{
+    "statusType": "Server Error (SequelizeUniqueConstraintError)",
+    "statusCode": "500 Internal Server Error",
+    "message": "The value '${value}' for the field 'name' already exists."
+}
+```
+
+</details>
+
 </details>

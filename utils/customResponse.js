@@ -8,7 +8,7 @@ function sucRes(res, code, message, result) {
   // 格式: 201 Created
   const statusCode = status(code)
 
-  // 後端回應
+  // 前端回應
   res.status(code).json({ statusType, statusCode, message, result })
 
   // 後端回應
