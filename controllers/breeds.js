@@ -2,8 +2,6 @@ const { Breed } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
-const CustomError = require('../utils/CustomError')
-
 const { sucRes } = require('../utils/customResponse')
 
 const Validator = require('../Validator')

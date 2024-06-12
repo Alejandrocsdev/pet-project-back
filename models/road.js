@@ -2,7 +2,9 @@
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Road extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Road.belongsTo(models.District, { foreignKey: 'districtId', as: 'district' })
+    }
   }
   Road.init(
     {

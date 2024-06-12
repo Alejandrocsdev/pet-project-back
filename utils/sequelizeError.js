@@ -1,3 +1,11 @@
+// err.error(O)
+// SequelizeUniqueConstraintError
+// SequelizeValidationError
+// err.error(X)
+// SequelizeEagerLoadingError
+// SequelizeDatabaseError
+// SequelizeConnectionError
+
 function sequelizeError(errors) {
   const type = errors[0].type
   const field = errors[0].path

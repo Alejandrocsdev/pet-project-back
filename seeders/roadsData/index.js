@@ -5,9 +5,11 @@
 
 const fs = require('fs')
 const path = require('path')
+
 const filePath = path.resolve(__dirname, 'opendata112road.csv')
-const file = fs.readFileSync(filePath, 'utf8')
-const lines = file.split(/\r?\n/)
+
+const data = fs.readFileSync(filePath, 'utf8')
+const lines = data.split(/\r?\n/)
 
 // -----------------------------------------------------------------------------------------
 // 全國路名資料(縣市/行政區域/路名)
