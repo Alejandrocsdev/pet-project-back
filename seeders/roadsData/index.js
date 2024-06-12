@@ -44,7 +44,7 @@ const processedDistricts = districts.map((district) => {
   const districtName = district.replace(cityName, '')
   return {
     name: districtName,
-    cityId: cityMap[cityName]
+    city_id: cityMap[cityName]
   }
 })
 // console.log(processedDistricts)
@@ -67,7 +67,7 @@ const districtMap = districts.reduce((map, district, index) => {
 // 路名(格式化)
 const processedRoads = fullRoads.map((roadName, index) => ({
   name: roadName,
-  districtId: districtMap[fullDistricts[index]]
+  district_id: districtMap[fullDistricts[index]]
 }))
 // console.log(processedRoads)
 // -----------------------------------------------------------------------------------------
