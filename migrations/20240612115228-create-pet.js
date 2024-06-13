@@ -25,16 +25,6 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      breed_id: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Breeds',
-          key: 'id'
-        },
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
