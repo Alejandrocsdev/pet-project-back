@@ -5,10 +5,12 @@ class Validator {
     this.schema = schema
   }
 
-  validatePk(data) {
-    if (!data) {
-      throw new CustomError(404, 'Table data not found with parameter or body id.')
-    }
+  validatePk(datas) {
+    datas.forEach((data) => {
+      if (!data) {
+        throw new CustomError(404, `Table data not found with parameter or body id.`)
+      }
+    })
   }
 
   validateBody(payload) {
@@ -22,7 +24,7 @@ class Validator {
   }
 
   validatePreserved(data, preserved) {
-    if(data === preserved) {
+    if (data === preserved) {
       throw new CustomError(400, `Value '${preserved}' is a preserved field, cannot be alter.`)
     }
   }

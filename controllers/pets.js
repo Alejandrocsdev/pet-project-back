@@ -41,7 +41,7 @@ class PetsController extends Validator {
         { model: User, as: 'owner', attributes: { exclude: ['password'] } }
       ]
     })
-    this.validatePk(pet)
+    this.validatePk([pet])
 
     sucRes(res, 200, `Get Pets table data from id ${petId} successfully.`, pet)
   })
@@ -51,8 +51,7 @@ class PetsController extends Validator {
     const { name, age, size, image, breedId, userId } = req.body
 
     const [breed, user] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId)])
-    this.validatePk(breed)
-    this.validatePk(user)
+    this.validatePk([breed, user])
 
     const pet = await Pet.create({ name, age, size, image, breedId, userId })
 
@@ -66,8 +65,7 @@ class PetsController extends Validator {
     const { petId } = req.params
 
     const [pet, breed] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId)])
-    this.validatePk(pet)
-    this.validatePk(breed)
+    this.validatePk([pet, breed])
 
     await Pet.update({ name, age, size, image, breedId }, { where: { id: petId } })
 
@@ -77,7 +75,7 @@ class PetsController extends Validator {
   deletePet = asyncError(async (req, res, next) => {
     const { petId } = req.params
     const pet = await Pet.findByPk(petId)
-    this.validatePk(pet)
+    this.validatePk([pet])
 
     await Pet.destroy({ where: { id: petId } })
 

@@ -24,7 +24,7 @@ class BreedsController extends Validator {
   getBreed = asyncError(async (req, res, next) => {
     const { breedId } = req.params
     const breed = await Breed.findByPk(breedId)
-    this.validatePk(breed)
+    this.validatePk([breed])
 
     sucRes(res, 200, `Get Breeds table data from id ${breedId} successfully.`, breed)
   })
@@ -47,7 +47,7 @@ class BreedsController extends Validator {
       Breed.findByPk(breedId),
       Breed.findOne({ where: { name: 'Other' } })
     ])
-    this.validatePk(breed)
+    this.validatePk([breed])
     this.validatePreserved(breed.name, preserved.name)
 
     await Breed.update({ name }, { where: { id: breedId } })
@@ -61,7 +61,7 @@ class BreedsController extends Validator {
       Breed.findByPk(breedId),
       Breed.findOne({ where: { name: 'Other' } })
     ])
-    this.validatePk(breed)
+    this.validatePk([breed])
     this.validatePreserved(breed.name, preserved.name)
 
     await Breed.destroy({ where: { id: breedId } })
