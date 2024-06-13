@@ -1,4 +1,4 @@
-const { Pet, Breed } = require('../models')
+const { Pet, Breed, User } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
@@ -23,7 +23,10 @@ class PetsController extends Validator {
 
   getPets = asyncError(async (req, res, next) => {
     const pets = await Pet.findAll({
-      include: [{ model: Breed, as: 'breed' }]
+      include: [
+        { model: Breed, as: 'breed' },
+        { model: User, as: 'owner', attributes: { exclude: ['password'] } }
+      ]
     })
 
     sucRes(res, 200, 'Get all Pets table data successfully.', pets)
@@ -32,7 +35,10 @@ class PetsController extends Validator {
   getPet = asyncError(async (req, res, next) => {
     const { petId } = req.params
     const pet = await Pet.findByPk(petId, {
-      include: [{ model: Breed, as: 'breed' }]
+      include: [
+        { model: Breed, as: 'breed' },
+        { model: User, as: 'owner', attributes: { exclude: ['password'] } }
+      ]
     })
     this.validatePk(pet)
 
@@ -57,10 +63,7 @@ class PetsController extends Validator {
 
     const { petId } = req.params
 
-    const [pet, breed] = await Promise.all([
-      Pet.findByPk(petId),
-      Breed.findByPk(breedId)
-    ])
+    const [pet, breed] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId)])
     this.validatePk(pet)
     this.validatePk(breed)
 

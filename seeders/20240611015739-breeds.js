@@ -14,7 +14,6 @@ while (uniqueDogNames.size < 10) {
 const data = Array.from(uniqueDogNames).map((name) => ({ name }))
 
 data.unshift({ name: 'Other' })
-data.unshift({ name: 'Unselected' })
 
 module.exports = {
   async up(queryInterface, Sequelize) {

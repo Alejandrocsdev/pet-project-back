@@ -27,16 +27,13 @@ class AddressController extends Validator {
 
   // 單一縣市(最高行政區域數量37)
   getCity = asyncError(async (req, res, next) => {
-    this.validateBody(req.body)
     const { cityId } = req.params
 
     const city = await City.findByPk(cityId, {
       include: [
         {
           model: District,
-          as: 'districts',
-          limit: Number(limit),
-          offset: Number(offset)
+          as: 'districts'
         }
       ]
     })
@@ -60,16 +57,13 @@ class AddressController extends Validator {
 
   // 單一行政區域(最高路名數量745)
   getDistrict = asyncError(async (req, res, next) => {
-    this.validateBody(req.body)
     const { districtId } = req.params
 
     const district = await District.findByPk(districtId, {
       include: [
         {
           model: Road,
-          as: 'roads',
-          limit: Number(limit),
-          offset: Number(offset)
+          as: 'roads'
         }
       ]
     })

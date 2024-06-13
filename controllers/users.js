@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Pet } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
@@ -16,14 +16,20 @@ class UsersController extends Validator {
   // }
 
   getUsers = asyncError(async (req, res, next) => {
-    const users = await User.findAll({ attributes: { exclude: ['password'] } })
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] },
+      include: { model: Pet, as: 'pets' }
+    })
 
     sucRes(res, 200, 'Get all Users table data successfully.', users)
   })
 
   getUser = asyncError(async (req, res, next) => {
     const { userId } = req.params
-    const user = await User.findByPk(userId, { attributes: { exclude: ['password'] } })
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+      include: { model: Pet, as: 'pets' }
+    })
     this.validatePk(user)
 
     sucRes(res, 200, `Get Users table data from id ${userId} successfully.`, user)

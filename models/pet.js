@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       })
+      Pet.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'owner',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      })
     }
   }
   Pet.init(
@@ -30,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       breedId: {
+        allowNull: true,
+        type: DataTypes.INTEGER
+      },
+      userId: {
         allowNull: false,
         type: DataTypes.INTEGER
       }

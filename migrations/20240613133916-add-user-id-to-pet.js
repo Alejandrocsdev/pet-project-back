@@ -3,19 +3,19 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('Pets', 'breed_id', {
-      allowNull: true,
+    await queryInterface.addColumn('Pets', 'user_id', {
+      allowNull: false,
       type: Sequelize.INTEGER,
       references: {
-        model: 'Breeds',
+        model: 'Users',
         key: 'id'
       },
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     })
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('Pets', 'breed_id')
+    await queryInterface.removeColumn('Pets', 'user_id')
   }
 }

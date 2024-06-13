@@ -2,13 +2,16 @@
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate(models) {}
+    static associate(models) {
+      User.hasMany(models.Pet, { foreignKey: 'userId', as: 'pets' })
+    }
   }
   User.init(
     {
       username: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
       },
       password: {
         allowNull: false,
@@ -16,11 +19,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
       },
       phone: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
       },
       city: {
         allowNull: false,
