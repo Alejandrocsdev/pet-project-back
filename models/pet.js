@@ -3,7 +3,12 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Pet extends Model {
     static associate(models) {
-      Pet.belongsTo(models.Breed, { foreignKey: 'breedId', as: 'breed' })
+      Pet.belongsTo(models.Breed, {
+        foreignKey: 'breedId',
+        as: 'breed',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+      })
     }
   }
   Pet.init(
@@ -20,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.ENUM('small', 'medium', 'large')
       },
-      image: DataTypes.STRING,
+      image: {
+        allowNull: true,
+        type: DataTypes.STRING
+      },
       breedId: {
         allowNull: false,
         type: DataTypes.INTEGER

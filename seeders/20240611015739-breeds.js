@@ -5,11 +5,16 @@
 // 引入假資料模組
 const { faker } = require('@faker-js/faker')
 
-const data = Array.from({ length: 10 }, () => ({
-  name: faker.animal.dog()
-}))
+const uniqueDogNames = new Set()
 
-data.push({ name: 'Other' })
+while (uniqueDogNames.size < 10) {
+  uniqueDogNames.add(faker.animal.dog())
+}
+
+const data = Array.from(uniqueDogNames).map((name) => ({ name }))
+
+data.unshift({ name: 'Other' })
+data.unshift({ name: 'Unselected' })
 
 module.exports = {
   async up(queryInterface, Sequelize) {
