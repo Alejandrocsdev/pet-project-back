@@ -13,7 +13,8 @@ const schema = Joi.object({
   age: Joi.number().integer().positive().required(),
   size: Joi.valid('small', 'medium', 'large').required(),
   image: Joi.string().allow(''),
-  breedId: Joi.number().integer().positive().required()
+  breedId: Joi.number().integer().positive().required(),
+  userId: Joi.number().integer().positive().required()
 })
 
 class PetsController extends Validator {
@@ -47,12 +48,13 @@ class PetsController extends Validator {
 
   postPet = asyncError(async (req, res, next) => {
     this.validateBody(req.body)
-    const { name, age, size, image, breedId } = req.body
+    const { name, age, size, image, breedId, userId } = req.body
 
-    const breed = await Breed.findByPk(breedId)
+    const [breed, user] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId)])
     this.validatePk(breed)
+    this.validatePk(user)
 
-    const pet = await Pet.create({ name, age, size, image, breedId })
+    const pet = await Pet.create({ name, age, size, image, breedId, userId })
 
     sucRes(res, 201, `Created new Pets table data successfully.`, pet)
   })

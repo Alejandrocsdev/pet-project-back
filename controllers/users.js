@@ -61,19 +61,15 @@ class UsersController extends Validator {
   //   sucRes(res, 200, `Updated table data with id ${userId} successfully.`)
   // })
 
-  // deleteUser = asyncError(async (req, res, next) => {
-  //   const { userId } = req.params
-  //   const [user, preserved] = await Promise.all([
-  //     User.findByPk(userId),
-  //     User.findOne({ where: { name: 'Other' } })
-  //   ])
-  //   this.validatePk(user)
-  //   this.validatePreserved(user.name, preserved.name)
+  deleteUser = asyncError(async (req, res, next) => {
+    const { userId } = req.params
+    const user = await User.findByPk(userId)
+    this.validatePk(user)
 
-  //   await User.destroy({ where: { id: userId } })
+    await User.destroy({ where: { id: userId } })
 
-  //   sucRes(res, 200, `Deleted table data with id ${userId} successfully.`)
-  // })
+    sucRes(res, 200, `Deleted table data with id ${userId} successfully.`)
+  })
 }
 
 module.exports = new UsersController()

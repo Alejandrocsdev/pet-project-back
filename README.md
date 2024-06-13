@@ -599,18 +599,31 @@ No custom operational error.
     "result": [
         {
             "id": 1,
-            "name": "Amiya",
-            "age": 2,
-            "size": "large",
-            "image": "https://loremflickr.com/320/240/dog/?random=17.28810770319662",
-            "breedId": 11,
-            "createdAt": "2024-06-12T12:48:58.000Z",
-            "updatedAt": "2024-06-12T12:48:58.000Z",
+            "name": "Letitia",
+            "age": 5,
+            "size": "medium",
+            "image": "https://loremflickr.com/320/240/dog/?random=55.74243960285878",
+            "breedId": 10,
+            "userId": 3,
+            "createdAt": "2024-06-13T14:42:40.000Z",
+            "updatedAt": "2024-06-13T14:42:40.000Z",
             "breed": {
-                "id": 11,
-                "name": "Other",
-                "createdAt": "2024-06-12T12:48:55.000Z",
-                "updatedAt": "2024-06-12T12:48:55.000Z"
+                "id": 10,
+                "name": "Bernese Mountain Dog",
+                "createdAt": "2024-06-13T14:42:37.000Z",
+                "updatedAt": "2024-06-13T14:42:37.000Z"
+            },
+            "owner": {
+                "id": 3,
+                "username": "user2",
+                "email": "user2@gmail.com",
+                "phone": "+886934567890",
+                "city": "高雄市",
+                "district": "橋頭區",
+                "road": "村中路",
+                "address": "5號5樓",
+                "createdAt": "2024-06-13T14:42:37.000Z",
+                "updatedAt": "2024-06-13T14:42:37.000Z"
             }
         },
         {...}
@@ -642,18 +655,31 @@ No custom operational error.
     "message": "Get Pets table data from id 1 successfully.",
     "result": {
         "id": 1,
-        "name": "Amiya",
-        "age": 2,
-        "size": "large",
-        "image": "https://loremflickr.com/320/240/dog/?random=17.28810770319662",
-        "breedId": 11,
-        "createdAt": "2024-06-12T12:48:58.000Z",
-        "updatedAt": "2024-06-12T12:48:58.000Z",
+        "name": "Letitia",
+        "age": 5,
+        "size": "medium",
+        "image": "https://loremflickr.com/320/240/dog/?random=55.74243960285878",
+        "breedId": 10,
+        "userId": 3,
+        "createdAt": "2024-06-13T14:42:40.000Z",
+        "updatedAt": "2024-06-13T14:42:40.000Z",
         "breed": {
-            "id": 11,
-            "name": "Other",
-            "createdAt": "2024-06-12T12:48:55.000Z",
-            "updatedAt": "2024-06-12T12:48:55.000Z"
+            "id": 10,
+            "name": "Bernese Mountain Dog",
+            "createdAt": "2024-06-13T14:42:37.000Z",
+            "updatedAt": "2024-06-13T14:42:37.000Z"
+        },
+        "owner": {
+            "id": 3,
+            "username": "user2",
+            "email": "user2@gmail.com",
+            "phone": "+886934567890",
+            "city": "高雄市",
+            "district": "橋頭區",
+            "road": "村中路",
+            "address": "5號5樓",
+            "createdAt": "2024-06-13T14:42:37.000Z",
+            "updatedAt": "2024-06-13T14:42:37.000Z"
         }
     }
 }
@@ -693,6 +719,7 @@ No custom operational error.
 | size    | O        | str  | small, medium, large |
 | image   | X        | str  |                      |
 | breedId | O        | int  |                      |
+| userId  | O        | int  |                      |
 
 **Response (Success) :**
 
@@ -700,13 +727,90 @@ No custom operational error.
 {
     "statusType": "Success",
     "statusCode": "201 Created",
-    "message": "Created new Breeds table data successfully.",
+    "message": "Created new Pets table data successfully.",
     "result": {
-        "id": 12,
-        "name": "Curly-Coated Retriever",
-        "updatedAt": "2024-06-12T02:57:51.042Z",
-        "createdAt": "2024-06-12T02:57:51.042Z"
+        "id": 11,
+        "name": "Ottilie",
+        "age": 1,
+        "size": "small",
+        "image": "https://loremflickr.com/320/240/dog/?random=17.28810770319662",
+        "breedId": 1,
+        "userId": 1,
+        "updatedAt": "2024-06-13T14:53:10.477Z",
+        "createdAt": "2024-06-13T14:53:10.477Z"
     }
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Name is required"
+    "message": "Name must be a string"
+    "message": "Name is not allowed to be empty"
+    "message": "Age is required"
+    "message": "Age must be an integer"
+    "message": "Age must be a positive number"
+    "message": "Age must be a number"
+    "message": "Size must be one of [small, medium, large]"
+    "message": "Image must be a string"
+    "message": "breedId is required"
+    "message": "breedId must be an integer"
+    "message": "breedId must be a positive number"
+    "message": "breedId must be a number"
+    "message": "userId is required"
+    "message": "userId must be an integer"
+    "message": "userId must be a positive number"
+    "message": "userId must be a number"
+}
+```
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter or body id."
+}
+
+```
+
+```
+{
+    "statusType": "Server Error (SequelizeUniqueConstraintError)",
+    "statusCode": "500 Internal Server Error",
+    "message": "The value '${value}' for the field 'name' already exists."
+}
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>PUT /pets/:petId</strong></summary>
+
+**Parameter :** `petId`
+
+**Body :**
+
+| Field   | Required | Type | Note                 |
+| ------- | -------- | ---- | -------------------- |
+| name    | O        | str  |                      |
+| age     | O        | int  | positive             |
+| size    | O        | str  | small, medium, large |
+| image   | X        | str  |                      |
+| breedId | O        | int  |                      |
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Updated table data with id 1 successfully."
 }
 ```
 
@@ -735,10 +839,17 @@ No custom operational error.
 ```
 {
     "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
     "statusCode": "404 Not Found",
     "message": "Table data not found with parameter or body id."
 }
-
 ```
 
 ```
@@ -746,6 +857,43 @@ No custom operational error.
     "statusType": "Server Error (SequelizeUniqueConstraintError)",
     "statusCode": "500 Internal Server Error",
     "message": "The value '${value}' for the field 'name' already exists."
+}
+```
+
+</details>
+
+<details>
+
+<summary style="color: black; background: #f5f5f5;">
+<strong>DELETE /pets/:petId</strong></summary>
+
+**Parameter :** `petId`
+
+**Response (Success) :**
+
+```
+{
+    "statusType": "Success",
+    "statusCode": "200 OK",
+    "message": "Deleted table data with id 1 successfully."
+}
+```
+
+**Response (Error) :**
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "400 Bad Request",
+    "message": "Invalid parameter id. It must be a positive integer."
+}
+```
+
+```
+{
+    "statusType": "Client Error",
+    "statusCode": "404 Not Found",
+    "message": "Table data not found with parameter or body id."
 }
 ```
 
