@@ -13,8 +13,10 @@ class Validator {
     })
   }
 
-  validateBody(payload) {
-    const { error } = this.schema.validate(payload)
+  validateBody(payload, body) {
+    const schema = body ? this.schema.append(body) : this.schema
+    const { error } = schema.validate(payload)
+
     if (error) {
       let message = error.details[0].message
       message = message.replace(/\"/g, '')
