@@ -336,13 +336,6 @@ No custom operational error.
 
 **Parameter :** `cityId`
 
-**Body :**
-
-| Field  | Required | Type    | Note        |
-| ------ | -------- | ------- | ----------- |
-| limit  | X        | str/int | default: 10 |
-| offset | X        | str/int | default: 0  |
-
 **Response (Success) :**
 
 ```
@@ -364,10 +357,7 @@ No custom operational error.
                 "updatedAt": "2024-06-12T12:48:58.000Z"
             },
             {...}
-        ],
-        "total": 12,
-        "limit": 2,
-        "offset": 1
+        ]
     }
 }
 ```
@@ -379,19 +369,6 @@ No custom operational error.
     "statusType": "Client Error",
     "statusCode": "400 Bad Request",
     "message": "Invalid parameter id. It must be a positive integer."
-}
-```
-
-```
-{
-    "statusType": "Client Error",
-    "statusCode": "400 Bad Request",
-    "message": "Limit must be a number"
-    "message": "Limit must be greater than or equal to 0"
-    "message": "Limit must be an integer"
-    "message": "offset must be a number"
-    "message": "offset must be greater than or equal to 0"
-    "message": "offset must be an integer"
 }
 ```
 
@@ -461,13 +438,6 @@ No custom operational error.
 
 **Parameter :** `districtId`
 
-**Body :**
-
-| Field  | Required | Type    | Note        |
-| ------ | -------- | ------- | ----------- |
-| limit  | X        | str/int | default: 10 |
-| offset | X        | str/int | default: 0  |
-
 **Response (Success) :**
 
 ```
@@ -490,10 +460,7 @@ No custom operational error.
                 "updatedAt": "2024-06-12T12:48:58.000Z"
             },
             {...}
-        ],
-        "total": 251,
-        "limit": 2,
-        "offset": 1
+        ]
     }
 }
 ```
@@ -505,19 +472,6 @@ No custom operational error.
     "statusType": "Client Error",
     "statusCode": "400 Bad Request",
     "message": "Invalid parameter id. It must be a positive integer."
-}
-```
-
-```
-{
-    "statusType": "Client Error",
-    "statusCode": "400 Bad Request",
-    "message": "Limit must be a number"
-    "message": "Limit must be greater than or equal to 0"
-    "message": "Limit must be an integer"
-    "message": "offset must be a number"
-    "message": "offset must be greater than or equal to 0"
-    "message": "offset must be an integer"
 }
 ```
 

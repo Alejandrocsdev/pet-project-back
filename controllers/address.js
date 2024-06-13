@@ -28,26 +28,21 @@ class AddressController extends Validator {
   // 單一縣市(最高行政區域數量37)
   getCity = asyncError(async (req, res, next) => {
     this.validateBody(req.body)
-    const { limit = 10, offset = 0 } = req.body
     const { cityId } = req.params
 
-    const [city, total] = await Promise.all([
-      City.findByPk(cityId, { include: [{
-            model: District,
-            as: 'districts',
-            limit: Number(limit),
-            offset: Number(offset)
-          }]}),
-      District.count({ where: { cityId } })
-    ])
+    const city = await City.findByPk(cityId, {
+      include: [
+        {
+          model: District,
+          as: 'districts',
+          limit: Number(limit),
+          offset: Number(offset)
+        }
+      ]
+    })
     this.validatePk(city)
 
-    const cityData = city.toJSON()
-    cityData.total = total
-    cityData.limit = limit
-    cityData.offset = offset
-
-    sucRes(res, 200, `Get Breeds table data from id ${cityId} successfully.`, cityData)
+    sucRes(res, 200, `Get Breeds table data from id ${cityId} successfully.`, city)
   })
 
   // 全台361行政區域
@@ -66,26 +61,21 @@ class AddressController extends Validator {
   // 單一行政區域(最高路名數量745)
   getDistrict = asyncError(async (req, res, next) => {
     this.validateBody(req.body)
-    const { limit = 10, offset = 0 } = req.body
     const { districtId } = req.params
 
-    const [district, total] = await Promise.all([
-      District.findByPk(districtId, { include: [{
-            model: Road,
-            as: 'roads',
-            limit: Number(limit),
-            offset: Number(offset)
-          }]}),
-      Road.count({ where: { districtId } })
-    ])
+    const district = await District.findByPk(districtId, {
+      include: [
+        {
+          model: Road,
+          as: 'roads',
+          limit: Number(limit),
+          offset: Number(offset)
+        }
+      ]
+    })
     this.validatePk(district)
 
-    const districtData = district.toJSON()
-    districtData.total = total
-    districtData.limit = limit
-    districtData.offset = offset
-
-    sucRes(res, 200, `Get Districts table data from id ${districtId} successfully.`, districtData)
+    sucRes(res, 200, `Get Districts table data from id ${districtId} successfully.`, district)
   })
 
   // 全台35026路名(含不同行政區相同路名)
