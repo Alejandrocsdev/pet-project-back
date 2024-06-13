@@ -8,7 +8,17 @@ const Validator = require('../Validator')
 
 const Joi = require('joi')
 
-// const schema = Joi.object({ name: Joi.string().required() })
+// const schema = Joi.object({
+//   username: Joi.string().required(),
+//   password: Joi.string().min(8).max(16).required(),
+//   passwordCheck: Joi.string().min(8).max(16).required().valid(Joi.ref('password')),
+//   email: Joi.string().email().required(),
+//   phone: Joi.string().pattern(/^09/).length(10).required(),
+//   city: Joi.string().required(),
+//   district: Joi.string().required(),
+//   road: Joi.string().required(),
+//   address: Joi.string().required()
+// })
 
 class UsersController extends Validator {
   // constructor() {

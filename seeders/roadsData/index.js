@@ -1,7 +1,7 @@
 // 出處: 政府資料開放平臺 (https://data.gov.tw/dataset/35321)
 // 年份: 民國112年
 // 檔名: opendata112road.csv
-// 備註: 不含連江縣, 路名不含[段]
+// 備註: 路名不含[段], 原資料不含連江縣(手動補上)
 
 const fs = require('fs')
 const path = require('path')
