@@ -11,6 +11,8 @@ const Joi = require('joi')
 const bcrypt = require('bcryptjs')
 
 const schema = Joi.object({
+  password: Joi.string().min(8).max(16).optional(),
+  passwordCheck: Joi.string().valid(Joi.ref('password')).when('password', { is: Joi.exist(), then: Joi.required() }),
   email: Joi.string().email().required(),
   phone: Joi.string().pattern(/^09/).length(10).required(),
   city: Joi.string().required(),
@@ -18,17 +20,6 @@ const schema = Joi.object({
   road: Joi.string().required(),
   address: Joi.string().required()
 })
-
-const postBody = {
-  username: Joi.string().required(),
-  password: Joi.string().min(8).max(16).required(),
-  passwordCheck: Joi.string().valid(Joi.ref('password')).required()
-}
-
-const putBody = {
-  password: Joi.string().min(8).max(16).optional(),
-  passwordCheck: Joi.string().valid(Joi.ref('password')).when('password', { is: Joi.exist(), then: Joi.required() })
-}
 
 class UsersController extends Validator {
   constructor() {
@@ -55,21 +46,8 @@ class UsersController extends Validator {
     sucRes(res, 200, `Get Users table data from id ${userId} successfully.`, user)
   })
 
-  postUser = asyncError(async (req, res, next) => {
-    this.validateBody(req.body, postBody)
-    const { username, password, passwordCheck, email, phone, city, district, road, address } = req.body
-
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    const user = await User.create({ username, password: hashedPassword, email, phone, city, district, road, address })
-    const userPlain = user.get({ plain: true })
-    delete userPlain.password
-
-    sucRes(res, 201, `Created new Users table data successfully.`, userPlain)
-  })
-
   putUser = asyncError(async (req, res, next) => {
-    this.validateBody(req.body, putBody)
+    this.validateBody(req.body)
     const { password, passwordCheck, email, phone, city, district, road, address } = req.body
 
     const { userId } = req.params

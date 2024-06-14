@@ -9,7 +9,6 @@ router.param('userId', checkId)
 
 router.route('/')
   .get(usersController.getUsers)
-  .post(usersController.postUser)
 
 router.route('/:userId')
   .get(usersController.getUser)
