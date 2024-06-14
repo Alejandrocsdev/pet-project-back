@@ -8,22 +8,32 @@ const Validator = require('../Validator')
 
 const Joi = require('joi')
 
-// const schema = Joi.object({
-//   username: Joi.string().required(),
-//   password: Joi.string().min(8).max(16).required(),
-//   passwordCheck: Joi.string().min(8).max(16).required().valid(Joi.ref('password')),
-//   email: Joi.string().email().required(),
-//   phone: Joi.string().pattern(/^09/).length(10).required(),
-//   city: Joi.string().required(),
-//   district: Joi.string().required(),
-//   road: Joi.string().required(),
-//   address: Joi.string().required()
-// })
+const bcrypt = require('bcryptjs')
+
+const schema = Joi.object({
+  email: Joi.string().email().required(),
+  phone: Joi.string().pattern(/^09/).length(10).required(),
+  city: Joi.string().required(),
+  district: Joi.string().required(),
+  road: Joi.string().required(),
+  address: Joi.string().required()
+})
+
+const postBody = {
+  username: Joi.string().required(),
+  password: Joi.string().min(8).max(16).required(),
+  passwordCheck: Joi.string().valid(Joi.ref('password')).required()
+}
+
+const putBody = {
+  password: Joi.string().min(8).max(16).optional(),
+  passwordCheck: Joi.string().valid(Joi.ref('password')).when('password', { is: Joi.exist(), then: Joi.required() })
+}
 
 class UsersController extends Validator {
-  // constructor() {
-  //   super(schema)
-  // }
+  constructor() {
+    super(schema)
+  }
 
   getUsers = asyncError(async (req, res, next) => {
     const users = await User.findAll({
@@ -45,31 +55,38 @@ class UsersController extends Validator {
     sucRes(res, 200, `Get Users table data from id ${userId} successfully.`, user)
   })
 
-  // postUser = asyncError(async (req, res, next) => {
-  //   this.validateBody(req.body)
-  //   const { name } = req.body
+  postUser = asyncError(async (req, res, next) => {
+    this.validateBody(req.body, postBody)
+    const { username, password, passwordCheck, email, phone, city, district, road, address } = req.body
 
-  //   const user = await User.create({ name })
+    const hashedPassword = await bcrypt.hash(password, 10)
 
-  //   sucRes(res, 201, `Created new Users table data successfully.`, user)
-  // })
+    const user = await User.create({ username, password: hashedPassword, email, phone, city, district, road, address })
+    const userPlain = user.get({ plain: true })
+    delete userPlain.password
 
-  // putUser = asyncError(async (req, res, next) => {
-  //   this.validateBody(req.body)
-  //   const { name } = req.body
+    sucRes(res, 201, `Created new Users table data successfully.`, userPlain)
+  })
 
-  //   const { userId } = req.params
-  //   const [user, preserved] = await Promise.all([
-  //     User.findByPk(userId),
-  //     User.findOne({ where: { name: 'Other' } })
-  //   ])
-  //   this.validatePk([user])
-  //   this.validatePreserved(user.name, preserved.name)
+  putUser = asyncError(async (req, res, next) => {
+    this.validateBody(req.body, putBody)
+    const { password, passwordCheck, email, phone, city, district, road, address } = req.body
 
-  //   await User.update({ name }, { where: { id: userId } })
+    const { userId } = req.params
+    const user = await User.findByPk(userId)
+    this.validatePk([user])
 
-  //   sucRes(res, 200, `Updated table data with id ${userId} successfully.`)
-  // })
+    const updateData = { email, phone, city, district, road, address }
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10)
+      updateData.password = hashedPassword
+    }
+
+    await User.update(updateData, { where: { id: userId } })
+
+    sucRes(res, 200, `Updated table data with id ${userId} successfully.`)
+  })
 
   deleteUser = asyncError(async (req, res, next) => {
     const { userId } = req.params

@@ -9,11 +9,11 @@ router.param('userId', checkId)
 
 router.route('/')
   .get(usersController.getUsers)
-  // .post(usersController.postUser)
+  .post(usersController.postUser)
 
 router.route('/:userId')
   .get(usersController.getUser)
-  // .put(usersController.putUser)
+  .put(usersController.putUser)
   .delete(usersController.deleteUser)
 
 module.exports = router

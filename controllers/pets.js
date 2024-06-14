@@ -8,7 +8,6 @@ const Validator = require('../Validator')
 
 const Joi = require('joi')
 
-// Base Schema
 const schema = Joi.object({
   name: Joi.string().required(),
   age: Joi.number().integer().positive().required(),
@@ -17,8 +16,7 @@ const schema = Joi.object({
   breedId: Joi.number().integer().positive().required()
 })
 
-// Append Body Validation to Schema
-const body1 = { userId: Joi.number().integer().positive().required() }
+const postBody = { userId: Joi.number().integer().positive().required() }
 
 class PetsController extends Validator {
   constructor() {
@@ -50,7 +48,7 @@ class PetsController extends Validator {
   })
 
   postPet = asyncError(async (req, res, next) => {
-    this.validateBody(req.body, body1)
+    this.validateBody(req.body, postBody)
     const { name, age, size, image, breedId, userId } = req.body
 
     const [breed, user] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId)])
