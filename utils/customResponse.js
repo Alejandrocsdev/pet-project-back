@@ -1,33 +1,24 @@
-const { type, status } = require('./statusCode')
-
+const resStatus = require('./responseStatus')
 const colorize = require('./colorize')
 
+// 成功回應
 function sucRes(res, code, message, result) {
-  // 格式: Success || Redirection
-  const statusType = type(code)
-  // 格式: 201 Created
-  const statusCode = status(code)
-
+  const { statusType, statusCode } = resStatus(code)
   // 前端回應
   res.status(code).json({ statusType, statusCode, message, result })
-
   // 後端回應
   console.info(colorize(`${statusType}:`, 'blue'))
   console.info(message)
 }
 
-function errRes(res, code, message, name, custMsg) {
-  // 格式: Client Error || Server Error (ReferenceError)
-  const statusType = type(code, name)
-  // 格式: 404 Not Found
-  const statusCode = status(code)
-
+// 錯誤回應
+function errRes(res, code, message, name) {
+  const { statusType, statusCode } = resStatus(code, name)
   // 前端回應
-  res.status(code).json({ statusType, statusCode, message: custMsg || message })
-
+  res.status(code).json({ statusType, statusCode, message })
   // 後端回應
   console.error(colorize(`${name}:`, 'red'))
-  console.error(message || custMsg)
+  console.error(message)
 }
 
 module.exports = { sucRes, errRes }

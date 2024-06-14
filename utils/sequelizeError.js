@@ -1,29 +1,30 @@
-// err.error(O)
-// SequelizeUniqueConstraintError
-// SequelizeValidationError
-// err.error(X)
+// err.errors(O)
+// SequelizeUniqueConstraintError(unique violation)
+// SequelizeValidationError(notNull Violation)
+// err.errors(X)
 // SequelizeEagerLoadingError
 // SequelizeDatabaseError
 // SequelizeConnectionError
 // SequelizeForeignKeyConstraintError
 
-function sequelizeError(errors) {
-  const type = errors[0].type
-  const field = errors[0].path
-  const value = errors[0].value
-  // console.log(type)
-  // console.log(field)
-  // console.log(value)
+function sequelizeError(err) {
+  if (err.errors) {
+    const name = err.name
+    const field = err.errors[0].path
+    const value = err.errors[0].value
+    return clientError(name, field, value)
+  } else {
+    return { code: 500, message: 'Database or ORM Error' }
+  }
+}
 
-  // const message = errors[0].message
-  // const validatorKey = errors[0].validatorKey
-  // console.log(message)
-  // console.log(validatorKey)
-
-  if (type === 'unique violation') {
-    return `The value '${value}' for the field '${field}' already exists.`
-  } else if (type === 'notNull Violation') {
-    return `Field '${field}' cannot be null.`
+function clientError(name, field, value) {
+  if (name === 'SequelizeUniqueConstraintError') {
+    return { code: 409, message: `The value '${value}' for the field '${field}' already exists.` }
+  } else if (name === 'SequelizeValidationError') {
+    return { code: 400, message: `Field '${field}' cannot be null.` }
+  } else {
+    return { code: 400, message: 'Unspecified Client Error (Sequelize)' }
   }
 }
 

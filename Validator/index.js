@@ -8,7 +8,7 @@ class Validator {
   validatePk(datas) {
     datas.forEach((data) => {
       if (!data) {
-        throw new CustomError(404, `Table data not found with parameter or body id.`)
+        throw new CustomError(404, `Table data not found with parameter or body id.`, err)
       }
     })
   }

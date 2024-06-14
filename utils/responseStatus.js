@@ -1,8 +1,8 @@
 const statusList = [
-  // { code: 100, status: 'Continue' },
-  // { code: 101, status: 'Switching Protocols' },
-  // { code: 102, status: 'Processing' },
-  // { code: 103, status: 'Early Hints' },
+  { code: 100, status: 'Continue' },
+  { code: 101, status: 'Switching Protocols' },
+  { code: 102, status: 'Processing' },
+  { code: 103, status: 'Early Hints' },
   { code: 200, status: 'OK' },
   { code: 201, status: 'Created' },
   { code: 202, status: 'Accepted' },
@@ -70,14 +70,14 @@ function status(code) {
 }
 
 function type(code, name) {
-  const errName = name && name !== 'Error' ? ` (${name})` : ''
+  const errName = name !== 'Error' ? ` (${name})` : ''
   switch (true) {
-    // case code >= 100 && code < 200:
-    //   return 'Informational'
+    case code >= 100 && code < 200:
+      return 'Informational'
     case code >= 200 && code < 300:
-      return `Success${errName}`
+      return 'Success'
     case code >= 300 && code < 400:
-      return `Redirection${errName}`
+      return 'Redirection'
     case code >= 400 && code < 500:
       return `Client Error${errName}`
     case code >= 500 && code < 600:
@@ -87,4 +87,10 @@ function type(code, name) {
   }
 }
 
-module.exports = { status, type }
+function resStatus(code, name) {
+  const statusType = type(code, name)
+  const statusCode = status(code)
+  return { statusType, statusCode }
+}
+
+module.exports = resStatus

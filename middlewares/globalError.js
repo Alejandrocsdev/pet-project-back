@@ -1,32 +1,21 @@
 const { errRes } = require('../utils/customResponse')
 
-const colorize = require('../utils/colorize')
-
 const { BaseError } = require('sequelize')
+const sequelizeError = require('../utils/sequelizeError')
 
 const CustomError = require('../utils/CustomError')
 
-const sequelizeError = require('../utils/sequelizeError')
-
 function globalError(err, req, res, next) {
-  const name = err.name
-  const code = err.code || 500
-  const message = err.message
-  const errors = err.errors
-
   if (err instanceof BaseError) {
-    const custMsg = errors ? sequelizeError(errors) : 'Database or ORM Error'
-    return errRes(res, code, message, name, custMsg)
+    const { code, message } = sequelizeError(err)
+    err.code = code
+    err.message = message
+  } else if (!(err instanceof CustomError)) {
+    err.code = 500
+    err.message = 'Programming Error'
   }
 
-  if (err instanceof CustomError) {
-    return errRes(res, code, message, name)
-  }
-
-  if (err instanceof Error) {
-    const custMsg = 'Programming Error'
-    return errRes(res, code, message, name, custMsg)
-  }
+  errRes(res, err.code, err.message, err.name)
 }
 
 module.exports = globalError

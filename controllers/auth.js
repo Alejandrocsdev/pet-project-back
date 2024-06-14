@@ -28,16 +28,23 @@ class AuthController extends Validator {
   }
 
   register = asyncError(async (req, res, next) => {
-    this.validateBody(req.body, postBody)
+    this.validateBody(req.body)
     const { username, password, passwordCheck, email, phone, city, district, road, address } = req.body
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const user = await User.create({ username, password: hashedPassword, email, phone, city, district, road, address })
-    const userPlain = user.get({ plain: true })
-    delete userPlain.password
+    let user = await User.create({ username, password: hashedPassword, email, phone, city, district, road, address })
+    user = user.toJSON()
+    delete user.password
 
-    sucRes(res, 201, `Created new Users table data successfully.`, userPlain)
+    sucRes(res, 201, `Created new Users table data successfully.`, user)
+  })
+
+  login = asyncError(async (req, res, next) => {
+    const user = req.user.toJSON()
+    delete user.password
+
+    sucRes(res, 200, 'User login successfully.', user)
   })
 }
 
