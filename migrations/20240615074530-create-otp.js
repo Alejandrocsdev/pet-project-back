@@ -9,15 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      method_data: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       otp: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      expireTime: {
+      expire_time: {
         allowNull: false,
         type: Sequelize.BIGINT
       },

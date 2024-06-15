@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Otp.init(
     {
-      userId: {
+      methodData: {
         allowNull: false,
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
       },
       otp: {
         allowNull: false,
@@ -16,12 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       expireTime: {
         allowNull: false,
-        type: DataTypes.BIGINT,
-        defaultValue: 0
+        type: DataTypes.BIGINT
       },
       attempts: {
         allowNull: false,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        defaultValue: 0
       }
     },
     {

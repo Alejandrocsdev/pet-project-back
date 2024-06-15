@@ -1,0 +1,8 @@
+Email Verification
+
+Thank you for signing up with us. Please click the button below to verify your email address.
+
+Verification Code: {{OTP}}
+
+If you did not create an account, no further action is required.
+2024 Your Company. All rights reserved.

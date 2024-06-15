@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verification</title>
+  <style>
+    * {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #0077b6;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #333333;
+    }
+
+    .content {
+      text-align: center;
+    }
+
+    .content p {
+      color: #000000;
+      line-height: 1.5;
+    }
+
+    .content div {
+      margin-top: 20px;
+      padding: 15px 25px;
+      background-color: #007BFF;
+      font-size: 26px;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .footer {
+      padding-top: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #dbdbdb;
+    }
+  </style>
+</head>
+
+<body style="background-color:#caf0f8;">
+  <div class="container">
+    <div class="header">
+      <h1>Email Verification</h1>
+    </div>
+    <div class="content">
+      <p>Thank you for signing up with us. Please click the button below to verify your email address.</p>
+      <div>{{OTP}}</div>
+    </div>
+    <div class="footer">
+      <p>If you did not create an account, no further action is required.</p>
+      <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+
+</html>
