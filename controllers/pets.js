@@ -4,6 +4,8 @@ const { asyncError } = require('../middlewares')
 
 const { sucRes } = require('../utils/customResponse')
 
+const localFile = require('../utils/localFile')
+
 const Validator = require('../Validator')
 
 const Joi = require('joi')
@@ -12,7 +14,7 @@ const schema = Joi.object({
   name: Joi.string().required(),
   age: Joi.number().integer().positive().required(),
   size: Joi.valid('small', 'medium', 'large').required(),
-  image: Joi.string().allow(''),
+  // image: Joi.string().allow(''),
   breedId: Joi.number().integer().positive().required()
 })
 
@@ -49,9 +51,11 @@ class PetsController extends Validator {
 
   postPet = asyncError(async (req, res, next) => {
     this.validateBody(req.body, postBody)
-    const { name, age, size, image, breedId, userId } = req.body
+    const { name, age, size, breedId, userId } = req.body
+    const { file } = req
+    console.log(file)
 
-    const [breed, user] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId)])
+    const [breed, user, image] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId), localFile(file)])
     this.validateData([breed, user])
 
     const pet = await Pet.create({ name, age, size, image, breedId, userId })
@@ -61,11 +65,11 @@ class PetsController extends Validator {
 
   putPet = asyncError(async (req, res, next) => {
     this.validateBody(req.body)
-    const { name, age, size, image, breedId } = req.body
-
+    const { name, age, size, breedId } = req.body
+    const { file } = req
     const { petId } = req.params
 
-    const [pet, breed] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId)])
+    const [pet, breed, image] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId), localFile(file)])
     this.validateData([pet, breed])
 
     await Pet.update({ name, age, size, image, breedId }, { where: { id: petId } })

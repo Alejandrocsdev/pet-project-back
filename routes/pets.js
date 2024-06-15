@@ -3,17 +3,17 @@ const router = Router()
 
 const { petsController } = require('../controllers')
 
-const { checkId } = require('../middlewares')
+const { upload, checkId } = require('../middlewares')
 
 router.param('petId', checkId)
 
 router.route('/')
   .get(petsController.getPets)
-  .post(petsController.postPet)
+  .post(upload.single('image'), petsController.postPet)
 
 router.route('/:petId')
   .get(petsController.getPet)
-  .put(petsController.putPet)
+  .put(upload.single('image'), petsController.putPet)
   .delete(petsController.deletePet)
 
 module.exports = router
