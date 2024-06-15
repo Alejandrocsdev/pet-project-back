@@ -41,7 +41,7 @@ const options = (email, OTP) => {
 }
 
 // 發送信件函式
-async function sendMail(email, OTP) {
+async function sendMail(email, otp) {
   // 郵件傳送器驗證
   const auth = config.auth
 
@@ -59,17 +59,7 @@ async function sendMail(email, OTP) {
   const transporter = nodemailer.createTransport(config)
 
   try {
-    // 發送郵件
-    const info = await transporter.sendMail(options(email, OTP))
-
-    // 簡化內容
-    const simpleInfo = {
-      accepted: info.accepted,
-      rejected: info.rejected
-    }
-
-    // 回傳發送資訊
-    return simpleInfo
+    const info = await transporter.sendMail(options(email, otp))
   } catch (err) {
     throw new CustomError(500, 'Failed to send email.')
   }
