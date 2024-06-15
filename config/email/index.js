@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer')
 
 // 自定義錯誤訊息
-const { CustomError } = require('../../errors/CustomError')
+const CustomError = require('../../errors/CustomError')
 
 const fs = require('fs')
 const path = require('path')
@@ -41,20 +41,18 @@ const options = (email, OTP) => {
 }
 
 // 發送信件函式
-async function sendMail(email, token) {
+async function sendMail(email, OTP) {
   // 郵件傳送器驗證
   const auth = config.auth
 
   // 驗證傳送器信箱
   if (!auth.user || !auth.user.includes('@gmail.com')) {
-    // 拋出錯誤，並由 catch 捕捉。400: Bad Request
-    throw new CustomError(400, 'Missing or incorrect email transporter sender email.')
+    throw new CustomError(500, 'Missing or incorrect email transporter sender email.')
   }
 
   // 驗證傳送器密碼
   if (!auth.pass || auth.pass.length !== 16) {
-    // 拋出錯誤，並由 catch 捕捉。400: Bad Request
-    throw new CustomError(400, 'Missing or incorrect email transporter App Password.')
+    throw new CustomError(500, 'Missing or incorrect email transporter App Password.')
   }
 
   // 創建可重複使用的發送郵件對象
@@ -62,7 +60,7 @@ async function sendMail(email, token) {
 
   try {
     // 發送郵件
-    const info = await transporter.sendMail(options(email, token))
+    const info = await transporter.sendMail(options(email, OTP))
 
     // 簡化內容
     const simpleInfo = {

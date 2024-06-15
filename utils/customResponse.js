@@ -14,11 +14,12 @@ function sucRes(res, code, message, result) {
 // 錯誤回應
 function errRes(res, code, message, name) {
   const { statusType, statusCode } = resStatus(code, name)
+  const { frontEndMsg, backEndMsg } = message
   // 前端回應
-  res.status(code).json({ statusType, statusCode, message })
+  res.status(code).json({ statusType, statusCode, message: frontEndMsg })
   // 後端回應
   console.error(colorize(`${name}:`, 'red'))
-  console.error(message)
+  console.error(backEndMsg)
 }
 
 module.exports = { sucRes, errRes }

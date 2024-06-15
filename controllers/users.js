@@ -41,7 +41,7 @@ class UsersController extends Validator {
       attributes: { exclude: ['password'] },
       include: { model: Pet, as: 'pets' }
     })
-    this.validatePk([user])
+    this.validateData([user])
 
     sucRes(res, 200, `Get Users table data from id ${userId} successfully.`, user)
   })
@@ -52,7 +52,7 @@ class UsersController extends Validator {
 
     const { userId } = req.params
     const user = await User.findByPk(userId)
-    this.validatePk([user])
+    this.validateData([user])
 
     const updateData = { email, phone, city, district, road, address }
 
@@ -69,7 +69,7 @@ class UsersController extends Validator {
   deleteUser = asyncError(async (req, res, next) => {
     const { userId } = req.params
     const user = await User.findByPk(userId)
-    this.validatePk([user])
+    this.validateData([user])
 
     await User.destroy({ where: { id: userId } })
 

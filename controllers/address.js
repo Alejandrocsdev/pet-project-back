@@ -37,7 +37,7 @@ class AddressController extends Validator {
         }
       ]
     })
-    this.validatePk([city])
+    this.validateData([city])
 
     sucRes(res, 200, `Get Breeds table data from id ${cityId} successfully.`, city)
   })
@@ -67,7 +67,7 @@ class AddressController extends Validator {
         }
       ]
     })
-    this.validatePk([district])
+    this.validateData([district])
 
     sucRes(res, 200, `Get Districts table data from id ${districtId} successfully.`, district)
   })
@@ -89,7 +89,7 @@ class AddressController extends Validator {
   getRoad = asyncError(async (req, res, next) => {
     const { roadId } = req.params
     const road = await Road.findByPk(roadId)
-    this.validatePk([road])
+    this.validateData([road])
 
     sucRes(res, 200, `Get Roads table data from id ${roadId} successfully.`, road)
   })
