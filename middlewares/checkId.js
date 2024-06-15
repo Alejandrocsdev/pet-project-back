@@ -1,4 +1,4 @@
-const CustomError = require('../utils/CustomError')
+const CustomError = require('../errors/CustomError')
 
 function checkId(req, res, next, val) {
   const id = Number(val)

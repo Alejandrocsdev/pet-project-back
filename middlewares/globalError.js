@@ -1,9 +1,9 @@
 const { errRes } = require('../utils/customResponse')
 
 const { BaseError } = require('sequelize')
-const sequelizeError = require('../utils/sequelizeError')
+const sequelizeError = require('../errors/sequelizeError')
 
-const CustomError = require('../utils/CustomError')
+const CustomError = require('../errors/CustomError')
 
 function globalError(err, req, res, next) {
   if (err instanceof BaseError) {

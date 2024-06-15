@@ -3,7 +3,7 @@ const customFields = { usernameField: 'username', passwordField: 'password' }
 
 const { User } = require('../../models')
 const bcrypt = require('bcryptjs')
-const CustomError = require('../../utils/CustomError')
+const CustomError = require('../../errors/CustomError')
 
 const verifyCallback = async (username, password, cb) => {
   try {

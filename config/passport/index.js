@@ -1,10 +1,22 @@
 const passport = require('passport')
 
 const localStrategy = require('./local')
+const jwtStrategy = require('./jwt')
+
+const jwtError = require('../../errors/jwtError')
 
 passport.use(localStrategy)
+passport.use(jwtStrategy)
 
 const passportInit = passport.initialize()
+
 const loginAuth = passport.authenticate('local', { session: false })
 
-module.exports = { passportInit, loginAuth }
+const jwtAuth = (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (passportErr, user, info) => {
+    const err = jwtError(passportErr, user, info)
+    next(err)
+  })(req, res, next)
+}
+
+module.exports = { passportInit, loginAuth, jwtAuth }

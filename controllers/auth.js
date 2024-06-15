@@ -10,6 +10,8 @@ const Joi = require('joi')
 
 const bcrypt = require('bcryptjs')
 
+const jwt = require('jsonwebtoken')
+
 const schema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().min(8).max(16).required(),
@@ -37,15 +39,17 @@ class AuthController extends Validator {
     user = user.toJSON()
     delete user.password
 
-    sucRes(res, 201, `Created new Users table data successfully.`, user)
+    sucRes(res, 201, `New user registered successfully.`, user)
   })
 
-  login = asyncError(async (req, res, next) => {
+  login = (req, res, next) => {
     const user = req.user.toJSON()
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1y' })
+    user.token = token
     delete user.password
 
     sucRes(res, 200, 'User login successfully.', user)
-  })
+  }
 }
 
 module.exports = new AuthController()

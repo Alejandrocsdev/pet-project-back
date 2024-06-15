@@ -1,4 +1,4 @@
-const CustomError = require('../utils/CustomError')
+const CustomError = require('../errors/CustomError')
 
 class Validator {
   constructor(schema) {
@@ -8,7 +8,7 @@ class Validator {
   validatePk(datas) {
     datas.forEach((data) => {
       if (!data) {
-        throw new CustomError(404, `Table data not found with parameter or body id.`, err)
+        throw new CustomError(404, `Table data not found with parameter or body id.`)
       }
     })
   }
