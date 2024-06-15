@@ -8,8 +8,6 @@ const Validator = require('../Validator')
 
 const Joi = require('joi')
 
-const bcrypt = require('bcryptjs')
-
 const encrypt = require('../utils/encrypt')
 
 const schema = Joi.object({
@@ -33,7 +31,7 @@ class AuthController extends Validator {
     this.validateBody(req.body)
     const { username, password, passwordCheck, email, phone, city, district, road, address } = req.body
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await encrypt.hash(password)
 
     let user = await User.create({ username, password: hashedPassword, email, phone, city, district, road, address })
     user = user.toJSON()
