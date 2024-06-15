@@ -10,7 +10,7 @@ const Joi = require('joi')
 
 const bcrypt = require('bcryptjs')
 
-const jwt = require('jsonwebtoken')
+const encrypt = require('../utils/encrypt')
 
 const schema = Joi.object({
   username: Joi.string().required(),
@@ -44,11 +44,18 @@ class AuthController extends Validator {
 
   login = (req, res, next) => {
     const user = req.user.toJSON()
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1y' })
+    const id = user.id
+    const token = encrypt.signToken(id, '1d')
     user.token = token
     delete user.password
 
     sucRes(res, 200, 'User login successfully.', user)
+  }
+
+  protected = (req, res, next) => {
+    const user = req.user
+
+    sucRes(res, 200, 'Protected successfully.', user)
   }
 }
 

@@ -15,6 +15,7 @@ const loginAuth = passport.authenticate('local', { session: false })
 const jwtAuth = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (passportErr, user, info) => {
     const err = jwtError(passportErr, user, info)
+    req.user = user
     next(err)
   })(req, res, next)
 }

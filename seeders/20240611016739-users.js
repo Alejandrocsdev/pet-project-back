@@ -6,14 +6,14 @@
 require('dotenv').config()
 
 // 引入加密模組
-const bcrypt = require('bcryptjs')
+const encrypt = require('../utils/encrypt')
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Users', [
       {
         username: 'root',
-        password: await bcrypt.hash('root', 10),
+        password: await encrypt.hash('root'),
         email: 'root@gmail.com',
         phone: '0912345678',
         city: '臺北市',
@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         username: 'user1',
-        password: await bcrypt.hash('user1', 10),
+        password: await encrypt.hash('user1'),
         email: process.env.TEST_EMAIL || 'user2@gmail.com',
         phone: process.env.TEST_PHONE || '0923456789',
         city: '臺中市',
@@ -33,7 +33,7 @@ module.exports = {
       },
       {
         username: 'user2',
-        password: await bcrypt.hash('user2', 10),
+        password: await encrypt.hash('user2'),
         email: 'user2@gmail.com',
         phone: '0934567890',
         city: '高雄市',
