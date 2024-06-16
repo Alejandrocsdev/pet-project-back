@@ -1,15 +1,17 @@
 const fs = require('fs')
 const CustomError = require('../../errors/CustomError')
 
-async function localStorage(file) {
-  if (!file) return null
+class Local {
+  async upload(file) {
+    if (!file) return null
 
-  try {
-    const filePath = file.path
-    return `/${filePath}`
-  } catch (err) {
-    throw new CustomError(500, 'Fail to upload local image.')
+    try {
+      const filePath = file.path
+      return { link: `/${filePath}`, deletehash: null }
+    } catch (err) {
+      throw new CustomError(500, 'Fail to upload local image.')
+    }
   }
 }
 
-module.exports = localStorage
+module.exports = new Local()

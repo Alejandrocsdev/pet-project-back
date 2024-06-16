@@ -2,14 +2,26 @@ const multer = require('multer')
 const path = require('path')
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, 'storage/local/')
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname))
   }
 })
 
-const upload = multer({ storage: storage })
+const localUpload = multer({ storage })
+const cloudUpload = multer()
+
+function upload(type) {
+  switch (true) {
+    case type === 'local':
+      return localUpload.single('image')
+      break
+    case type === 'imgur' || type === 'cloudinary':
+      return cloudUpload.single('image')
+      break
+  }
+}
 
 module.exports = upload

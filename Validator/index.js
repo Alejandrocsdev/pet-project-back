@@ -5,12 +5,11 @@ class Validator {
     this.schema = schema
   }
 
-  validateData(datas, message) {
-    datas.forEach((data) => {
-      if (!data) {
-        throw new CustomError(404, message || 'Table data not found with parameter or body id.')
-      }
-    })
+  joiMessage(error) {
+    let message = error.details[0].message
+    message = message.replace(/\"/g, '')
+    message = message.charAt(0).toUpperCase() + message.slice(1)
+    return message
   }
 
   validateBody(payload, body) {
@@ -18,11 +17,26 @@ class Validator {
     const { error } = schema.validate(payload)
 
     if (error) {
-      let message = error.details[0].message
-      message = message.replace(/\"/g, '')
-      message = message.charAt(0).toUpperCase() + message.slice(1)
+      const message = this.joiMessage(error)
       throw new CustomError(400, message)
     }
+  }
+
+  validateImage(schema, file) {
+    const { error } = schema.validate(file)
+  
+    if (error) {
+      const message = this.joiMessage(error)
+      throw new CustomError(400, message)
+    }
+  }
+
+  validateData(datas, message) {
+    datas.forEach((data) => {
+      if (!data) {
+        throw new CustomError(404, message || 'Table data not found with parameter or body id.')
+      }
+    })
   }
 
   validatePreserved(data, preserved) {

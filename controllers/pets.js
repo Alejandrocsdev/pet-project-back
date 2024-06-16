@@ -4,7 +4,8 @@ const { asyncError } = require('../middlewares')
 
 const { sucRes } = require('../utils/customResponse')
 
-const localStorage = require('../storage/local')
+const { uploadImage } = require('../storage')
+const storageType = process.env.STORAGE_TYPE || 'local'
 
 const Validator = require('../Validator')
 
@@ -14,11 +15,15 @@ const schema = Joi.object({
   name: Joi.string().required(),
   age: Joi.number().integer().positive().required(),
   size: Joi.valid('small', 'medium', 'large').required(),
-  // image: Joi.string().allow(''),
   breedId: Joi.number().integer().positive().required()
 })
 
 const postBody = { userId: Joi.number().integer().positive().required() }
+
+const fileSchema = Joi.object({
+  mimetype: Joi.string().valid('image/jpg', 'image/png').required(),
+  size: Joi.number().max(3 * 1024 * 1024).required()
+}).unknown(true)
 
 class PetsController extends Validator {
   constructor() {
@@ -53,11 +58,19 @@ class PetsController extends Validator {
     this.validateBody(req.body, postBody)
     const { name, age, size, breedId, userId } = req.body
     const { file } = req
+    this.validateImage(fileSchema, file)
 
-    const [breed, user, image] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId), localStorage(file)])
+    const [breed, user, image] = await Promise.all([
+      Breed.findByPk(breedId),
+      User.findByPk(userId),
+      uploadImage(file, storageType)
+    ])
     this.validateData([breed, user])
 
-    const pet = await Pet.create({ name, age, size, image, breedId, userId })
+    const link = image?.link
+    const deletehash = image?.deletehash
+
+    const pet = await Pet.create({ name, age, size, image: link, breedId, userId })
 
     sucRes(res, 201, `Created new Pets table data successfully.`, pet)
   })
@@ -68,7 +81,11 @@ class PetsController extends Validator {
     const { file } = req
     const { petId } = req.params
 
-    const [pet, breed, image] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId), localStorage(file)])
+    const [pet, breed, image] = await Promise.all([
+      Pet.findByPk(petId),
+      Breed.findByPk(breedId),
+      uploadImage(file, storageType)
+    ])
     this.validateData([pet, breed])
 
     await Pet.update({ name, age, size, image, breedId }, { where: { id: petId } })

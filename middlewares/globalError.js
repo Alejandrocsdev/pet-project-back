@@ -6,7 +6,6 @@ const sequelizeError = require('../errors/sequelizeError')
 const CustomError = require('../errors/CustomError')
 
 function globalError(err, req, res, next) {
-  console.log(err)
   const backEndMsg = err.message
   if (err instanceof BaseError) {
     const { code, message } = sequelizeError(err)
