@@ -1,10 +1,10 @@
-const { Pet, Breed, User } = require('../models')
+const { Pet, Breed, User, Image } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
 const { sucRes } = require('../utils/customResponse')
 
-const { uploadImage } = require('../storage')
+const { uploadImage, deleteImage } = require('../storage')
 const storageType = process.env.STORAGE_TYPE || 'local'
 
 const Validator = require('../Validator')
@@ -68,11 +68,23 @@ class PetsController extends Validator {
     this.validateData([breed, user])
 
     const link = image?.link
-    const deletehash = image?.deletehash
+    const deleteData = image?.deleteData
 
-    const pet = await Pet.create({ name, age, size, image: link, breedId, userId })
+    console.log(link)
 
-    sucRes(res, 201, `Created new Pets table data successfully.`, pet)
+    try {
+      const pet = await Pet.create({ name, age, size, breedId, userId })
+      if (image) {
+        await Image.create({ link, deleteData, entityId: pet.id, entityType: 'pet' })
+        await pet.reload({ include: [{ model: Image, as: 'image', attributes: ['link'] }] })
+      }
+      sucRes(res, 201, `Created new Pets table data successfully.`, pet)
+    } catch (err) {
+      if (deleteData) {
+        await deleteImage(deleteData, storageType)
+      }
+      next(err)
+    }
   })
 
   putPet = asyncError(async (req, res, next) => {

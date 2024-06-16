@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       })
+      Pet.hasOne(models.Image, {
+        foreignKey: 'entityId',
+        as: 'image',
+        constraints: false,
+        scope: { entityType: 'pet' }
+      })
     }
   }
   Pet.init(
@@ -30,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       size: {
         allowNull: false,
         type: DataTypes.ENUM('small', 'medium', 'large')
-      },
-      image: {
-        allowNull: true,
-        type: DataTypes.STRING
       },
       breedId: {
         allowNull: true,

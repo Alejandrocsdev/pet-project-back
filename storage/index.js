@@ -16,4 +16,18 @@ function uploadImage(file, type) {
   }
 }
 
-module.exports = { uploadImage }
+function deleteImage(deleteData, type) {
+  switch (true) {
+    case type === 'local':
+      return local.delete(deleteData)
+      break
+    case type === 'imgur':
+      return imgur.delete(deleteData)
+      break
+    case type === 'cloudinary':
+      return cloudinary.delete(deleteData)
+      break
+  }
+}
+
+module.exports = { uploadImage, deleteImage }

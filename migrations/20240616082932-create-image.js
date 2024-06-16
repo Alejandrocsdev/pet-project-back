@@ -1,25 +1,29 @@
-'use strict'
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pets', {
+    await queryInterface.createTable('Images', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        allowNull: false,
+      link: {
+        allowNull: true,
         type: Sequelize.STRING
       },
-      age: {
+      delete_data: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      entity_id: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      size: {
+      entity_type: {
         allowNull: false,
-        type: Sequelize.ENUM('small', 'medium', 'large')
+        type: Sequelize.STRING
       },
       created_at: {
         allowNull: false,
@@ -31,9 +35,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
       }
-    })
+    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Pets')
+    await queryInterface.dropTable('Images');
   }
-}
+};

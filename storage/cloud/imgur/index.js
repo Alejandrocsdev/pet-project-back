@@ -7,7 +7,7 @@ const accessToken = process.env.IMGUR_ACCESS_TOKEN
 class Imgur {
   async upload(file) {
     if (!file) return null
-  
+
     try {
       const image = file.buffer.toString('base64')
       const response = await axios.post(
@@ -17,10 +17,20 @@ class Imgur {
       )
       const data = response.data.data
       const link = data.link
-      const deletehash = data.deletehash
-      return { link, deletehash }
+      const deleteData = data.deletehash
+      return { link, deleteData }
     } catch (err) {
-      throw new CustomError(500, 'Fail to upload local image (imgur).')
+      throw new CustomError(500, 'Failed to upload local image. (imgur)')
+    }
+  }
+
+  async delete(deletehash) {
+    try {
+      await axios.delete(`${API}/image/${deletehash}`, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+    } catch (err) {
+      throw new CustomError(500, 'Failed to delete image. (imgur)')
     }
   }
 }
