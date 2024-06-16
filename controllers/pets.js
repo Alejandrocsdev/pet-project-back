@@ -4,7 +4,7 @@ const { asyncError } = require('../middlewares')
 
 const { sucRes } = require('../utils/customResponse')
 
-const localFile = require('../utils/localFile')
+const localStorage = require('../storage/local')
 
 const Validator = require('../Validator')
 
@@ -53,9 +53,8 @@ class PetsController extends Validator {
     this.validateBody(req.body, postBody)
     const { name, age, size, breedId, userId } = req.body
     const { file } = req
-    console.log(file)
 
-    const [breed, user, image] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId), localFile(file)])
+    const [breed, user, image] = await Promise.all([Breed.findByPk(breedId), User.findByPk(userId), localStorage(file)])
     this.validateData([breed, user])
 
     const pet = await Pet.create({ name, age, size, image, breedId, userId })
@@ -69,7 +68,7 @@ class PetsController extends Validator {
     const { file } = req
     const { petId } = req.params
 
-    const [pet, breed, image] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId), localFile(file)])
+    const [pet, breed, image] = await Promise.all([Pet.findByPk(petId), Breed.findByPk(breedId), localStorage(file)])
     this.validateData([pet, breed])
 
     await Pet.update({ name, age, size, image, breedId }, { where: { id: petId } })

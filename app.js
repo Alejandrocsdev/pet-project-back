@@ -21,7 +21,7 @@ app.use(cors())
 // 解析請求主體的 JSON 格式資料
 app.use(express.json())
 // 解析靜態資源的路徑
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+app.use('/uploads', express.static(path.join(__dirname, 'storage', 'local')))
 // 使用 Passport 初始化中間件
 app.use(passportInit)
 // 掛載路由中間件

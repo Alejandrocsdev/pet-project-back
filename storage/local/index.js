@@ -1,7 +1,7 @@
 const fs = require('fs')
-const CustomError = require('../errors/CustomError')
+const CustomError = require('../../errors/CustomError')
 
-async function localFile(file) {
+async function localStorage(file) {
   if (!file) return null
 
   try {
@@ -12,4 +12,4 @@ async function localFile(file) {
   }
 }
 
-module.exports = localFile
+module.exports = localStorage
