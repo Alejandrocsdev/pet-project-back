@@ -6,6 +6,8 @@ const express = require('express')
 const app = express()
 // 設定伺服器端口
 const port = Number(process.env.PORT) || 3000
+// 載入 Node.js 內建的 path 模組
+const path = require('path')
 // 中間件: 跨來源資源共用
 const cors = require('cors')
 // 初始化 Passport 認證
@@ -18,6 +20,8 @@ const { defaultRoute, globalError } = require('./middlewares')
 app.use(cors())
 // 解析請求主體的 JSON 格式資料
 app.use(express.json())
+// 解析靜態資源的路徑
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 // 使用 Passport 初始化中間件
 app.use(passportInit)
 // 掛載路由中間件

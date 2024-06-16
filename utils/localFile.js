@@ -1,15 +1,15 @@
 const fs = require('fs')
+const CustomError = require('../errors/CustomError')
 
-const localFile = async (file) => {
-  console.log('localFile: ', file)
+async function localFile(file) {
   if (!file) return null
-  const fileName = `upload/${file.originalname}`
+
   try {
-    const data = await fs.promises.readFile(file.path)
-    await fs.promises.writeFile(fileName, data)
-    return `/${fileName}`
+    const filePath = file.path
+    return `/${filePath}`
   } catch (err) {
-    throw err
+    throw new CustomError(500, 'Fail to upload local image.')
   }
 }
+
 module.exports = localFile

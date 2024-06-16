@@ -1,4 +1,4 @@
-const upload = require('./multer')
+const upload = require('./upload')
 const checkId = require('./checkId')
 const defaultRoute = require('./defaultRoute')
 const asyncError = require('./asyncError')
