@@ -20,7 +20,6 @@ module.exports = {
       name: faker.person.firstName(),
       age: faker.number.int({ min: 1, max: 15 }),
       size: faker.helpers.arrayElement(['small', 'medium', 'large']),
-      // image: `https://loremflickr.com/320/240/dog/?random=${Math.random() * 100}`,
       breed_id: breeds[Math.floor(Math.random() * breeds.length)].id,
       user_id: users[Math.floor(Math.random() * users.length)].id
     }))

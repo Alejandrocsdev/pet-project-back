@@ -46,26 +46,26 @@ class VerificationController extends Validator {
     try {
       if (otpData) {
         // 將最新OTP存至資料庫
-        await Otp.update({ otp: hashedOtp, expireTime, attempts: 0 }, { where: { methodData } })
+        await Otp.update({ otp: hashedOtp, expireTime, attempts: 0 }, { where: { methodData }, transaction })
       } else {
         // 將OTP存至資料庫
-        await Otp.create({ methodData, otp: hashedOtp, expireTime })
+        await Otp.create({ methodData, otp: hashedOtp, expireTime }, { transaction })
       }
       // 提交事務
       await transaction.commit()
+
+      if (method === 'email') {
+        await sendMail(methodData, otp)
+        sucRes(res, 200, 'Email sent successfully.')
+      } else {
+        const phone = '+886' + methodData.slice(1)
+        await sendSMS(phone, otp)
+        sucRes(res, 200, 'SMS sent successfully.')
+      }
     } catch (err) {
       // 如果發生錯誤，回滾事務
       await transaction.rollback()
       next(err)
-    }
-
-    if (method === 'email') {
-      await sendMail(methodData, otp)
-      sucRes(res, 200, 'Email sent successfully.')
-    } else {
-      const phone = '+886' + methodData.slice(1)
-      await sendSMS(phone, otp)
-      sucRes(res, 200, 'SMS sent successfully.')
     }
   })
 

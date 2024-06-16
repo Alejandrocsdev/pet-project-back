@@ -1,4 +1,4 @@
-const { Pet, Breed, User, Image } = require('../models')
+const { sequelize, Pet, Breed, User, Image } = require('../models')
 
 const { asyncError } = require('../middlewares')
 
@@ -21,7 +21,7 @@ const schema = Joi.object({
 const postBody = { userId: Joi.number().integer().positive().required() }
 
 const fileSchema = Joi.object({
-  mimetype: Joi.string().valid('image/jpg', 'image/png').required(),
+  mimetype: Joi.string().valid('image/jpeg', 'image/png').required(),
   size: Joi.number().max(3 * 1024 * 1024).required()
 }).unknown(true)
 
@@ -34,7 +34,8 @@ class PetsController extends Validator {
     const pets = await Pet.findAll({
       include: [
         { model: Breed, as: 'breed' },
-        { model: User, as: 'owner', attributes: { exclude: ['password'] } }
+        { model: User, as: 'owner', attributes: { exclude: ['password'] } },
+        { model: Image, as: 'image', attributes: ['link'] }
       ]
     })
 
@@ -46,7 +47,8 @@ class PetsController extends Validator {
     const pet = await Pet.findByPk(petId, {
       include: [
         { model: Breed, as: 'breed' },
-        { model: User, as: 'owner', attributes: { exclude: ['password'] } }
+        { model: User, as: 'owner', attributes: { exclude: ['password'] } },
+        { model: Image, as: 'image', attributes: ['link'] }
       ]
     })
     this.validateData([pet])
@@ -60,26 +62,27 @@ class PetsController extends Validator {
     const { file } = req
     this.validateImage(fileSchema, file)
 
-    const [breed, user, image] = await Promise.all([
+    const [breed, user, image, transaction] = await Promise.all([
       Breed.findByPk(breedId),
       User.findByPk(userId),
-      uploadImage(file, storageType)
+      uploadImage(file, storageType),
+      sequelize.transaction()
     ])
     this.validateData([breed, user])
 
     const link = image?.link
     const deleteData = image?.deleteData
 
-    console.log(link)
-
     try {
-      const pet = await Pet.create({ name, age, size, breedId, userId })
+      const pet = await Pet.create({ name, age, size, breedId, userId }, { transaction })
       if (image) {
-        await Image.create({ link, deleteData, entityId: pet.id, entityType: 'pet' })
+        await Image.create({ link, deleteData, entityId: pet.id, entityType: 'pet' }, { transaction })
         await pet.reload({ include: [{ model: Image, as: 'image', attributes: ['link'] }] })
       }
+      await transaction.commit();
       sucRes(res, 201, `Created new Pets table data successfully.`, pet)
     } catch (err) {
+      await transaction.rollback()
       if (deleteData) {
         await deleteImage(deleteData, storageType)
       }
