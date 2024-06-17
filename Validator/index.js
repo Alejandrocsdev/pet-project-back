@@ -22,7 +22,7 @@ class Validator {
     }
   }
 
-  validateImage(schema, file) {
+  validateImage(file, schema) {
     const { error } = schema.validate(file)
   
     if (error) {

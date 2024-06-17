@@ -6,6 +6,8 @@
 // SequelizeDatabaseError
 // SequelizeConnectionError
 // SequelizeForeignKeyConstraintError
+// SequelizeInstanceError
+// AssertionError
 
 function sequelizeError(err) {
   if (err.errors) {
