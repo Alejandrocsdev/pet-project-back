@@ -1,15 +1,16 @@
+// Models
 const { User } = require('../models')
-
+// 異步錯誤處理中間件
 const { asyncError } = require('../middlewares')
-
+// 成功回應
 const { sucRes } = require('../utils/customResponse')
-
+// 驗證
 const Validator = require('../Validator')
-
+// 驗證模組
 const Joi = require('joi')
-
+// 加密模組
 const encrypt = require('../utils/encrypt')
-
+// Body驗證條件(base)
 const schema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().min(8).max(16).required(),
@@ -28,12 +29,17 @@ class AuthController extends Validator {
   }
 
   register = asyncError(async (req, res, next) => {
+    // 驗證請求主體
     this.validateBody(req.body)
     const { username, password, passwordCheck, email, phone, city, district, road, address } = req.body
 
+    // 密碼加密
     const hashedPassword = await encrypt.hash(password)
 
+    // 建立User資訊
     let user = await User.create({ username, password: hashedPassword, email, phone, city, district, road, address })
+
+    // 更新User回傳資料
     user = user.toJSON()
     delete user.password
 
@@ -41,20 +47,24 @@ class AuthController extends Validator {
   })
 
   login = (req, res, next) => {
+    // 取得User資訊
     const user = req.user.toJSON()
-    const id = user.id
-    const token = encrypt.signToken(id, '1d')
+
+    // 生成token
+    const token = encrypt.signToken(user.id, '1d')
+
+    // 更新User回傳資料
     user.token = token
     delete user.password
 
     sucRes(res, 200, 'User login successfully.', user)
   }
 
-  protected = (req, res, next) => {
-    const user = req.user
+  // protected = (req, res, next) => {
+  //   const user = req.user
 
-    sucRes(res, 200, 'Protected successfully.', user)
-  }
+  //   sucRes(res, 200, 'Protected successfully.', user)
+  // }
 }
 
 module.exports = new AuthController()
