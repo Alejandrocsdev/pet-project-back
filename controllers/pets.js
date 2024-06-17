@@ -103,7 +103,7 @@ class PetsController extends Validator {
     } catch (err) {
       // 回滾事務
       await transaction.rollback()
-      // 回滾imgur照片新增
+      // 回滾storage照片新增
       if (deleteData) {
         await deleteImage(deleteData, storageType)
       }
@@ -163,7 +163,7 @@ class PetsController extends Validator {
     } catch (err) {
       // 回滾事務
       await transaction.rollback()
-      // 回滾imgur照片新增
+      // 回滾storage照片新增
       if (deleteData) {
         await deleteImage(deleteData, storageType)
       }

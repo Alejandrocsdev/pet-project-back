@@ -13,7 +13,10 @@ module.exports = {
     await queryInterface.bulkInsert('Users', [
       {
         username: 'root',
-        password: await encrypt.hash('root'),
+        password: await encrypt.hash('root1234'),
+        nickname: 'Rooty',
+        first_name: 'Root',
+        last_name: 'Tree',
         email: 'root@gmail.com',
         phone: '0912345678',
         city: '臺北市',
@@ -23,7 +26,10 @@ module.exports = {
       },
       {
         username: 'user1',
-        password: await encrypt.hash('user1'),
+        password: await encrypt.hash('user1234'),
+        nickname: 'Player',
+        first_name: 'SER',
+        last_name: 'U',
         email: process.env.TEST_EMAIL || 'user2@gmail.com',
         phone: process.env.TEST_PHONE || '0923456789',
         city: '臺中市',
@@ -33,7 +39,10 @@ module.exports = {
       },
       {
         username: 'user2',
-        password: await encrypt.hash('user2'),
+        password: await encrypt.hash('user2345'),
+        nickname: 'Member',
+        first_name: 'Ember',
+        last_name: 'M',
         email: 'user2@gmail.com',
         phone: '0934567890',
         city: '高雄市',

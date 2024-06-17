@@ -1,5 +1,5 @@
 // Models
-const { User, Pet } = require('../models')
+const { User, Pet, Image } = require('../models')
 // 異步錯誤處理中間件
 const { asyncError } = require('../middlewares')
 // 成功回應
@@ -14,6 +14,9 @@ const encrypt = require('../utils/encrypt')
 const schema = Joi.object({
   password: Joi.string().min(8).max(16).optional(),
   passwordCheck: Joi.string().valid(Joi.ref('password')).when('password', { is: Joi.exist(), then: Joi.required() }),
+  nickname: Joi.string().required(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string().email().required(),
   phone: Joi.string().pattern(/^09/).length(10).required(),
   city: Joi.string().required(),
@@ -31,7 +34,10 @@ class UsersController extends Validator {
     // 讀取全部資料
     const users = await User.findAll({
       attributes: { exclude: ['password'] },
-      include: { model: Pet, as: 'pets' }
+      include: [
+        { model: Pet, as: 'pets' },
+        { model: Image, as: 'avatar', attributes: ['link'] }
+      ]
     })
 
     sucRes(res, 200, 'Get all Users table data successfully.', users)
@@ -43,7 +49,10 @@ class UsersController extends Validator {
     // 讀取單一資料
     const user = await User.findByPk(userId, {
       attributes: { exclude: ['password'] },
-      include: { model: Pet, as: 'pets' }
+      include: [
+        { model: Pet, as: 'pets' },
+        { model: Image, as: 'avatar', attributes: ['link'] }
+      ]
     })
     // 驗證資料是否存在
     this.validateData([user])
@@ -54,7 +63,7 @@ class UsersController extends Validator {
   putUser = asyncError(async (req, res, next) => {
     // 驗證請求主體
     this.validateBody(req.body)
-    const { password, passwordCheck, email, phone, city, district, road, address } = req.body
+    const { password, passwordCheck, nickname, firstName, lastName, email, phone, city, district, road, address } = req.body
 
     // 請求參數(checkId中間件已驗證過)
     const { userId } = req.params
@@ -64,7 +73,7 @@ class UsersController extends Validator {
     this.validateData([user])
 
     // 欲更新資料(無未加密密碼)
-    const updateData = { email, phone, city, district, road, address }
+    const updateData = { nickname, firstName, lastName, email, phone, city, district, road, address }
 
     // 如有更新密碼: 更新資料包含加密密碼
     if (password) {

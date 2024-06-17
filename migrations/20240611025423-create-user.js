@@ -18,6 +18,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      nickname: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      first_name: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      last_name: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       email: {
         allowNull: false,
         type: Sequelize.STRING,

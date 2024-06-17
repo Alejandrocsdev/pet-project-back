@@ -19,6 +19,9 @@ const schema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().min(8).max(16).required(),
   passwordCheck: Joi.string().valid(Joi.ref('password')).required(),
+  nickname: Joi.string().required(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string().email().required(),
   phone: Joi.string().pattern(/^09/).length(10).required(),
   city: Joi.string().required(),
@@ -29,9 +32,7 @@ const schema = Joi.object({
 // File驗證條件(base)
 const fileSchema = Joi.object({
   mimetype: Joi.string().valid('image/jpeg', 'image/png').required(),
-  size: Joi.number()
-    .max(3 * 1024 * 1024)
-    .required()
+  size: Joi.number().max(3 * 1024 * 1024).required()
 }).unknown(true)
 
 class AuthController extends Validator {
@@ -42,8 +43,7 @@ class AuthController extends Validator {
   register = asyncError(async (req, res, next) => {
     // 驗證請求主體
     this.validateBody(req.body)
-    const { username, password, passwordCheck, email, phone, city, district, road, address } =
-      req.body
+    const { username, password, passwordCheck, nickname, firstName, lastName, email, phone, city, district, road, address } = req.body
     // 驗證上傳照片(optional)
     this.validateImage(req.file, fileSchema)
     const { file } = req
@@ -61,7 +61,7 @@ class AuthController extends Validator {
     try {
       // 建立User資訊
       let user = await User.create(
-        { username, password: hashedPassword, email, phone, city, district, road, address },
+        { username, password: hashedPassword, nickname, firstName, lastName, email, phone, city, district, road, address },
         { transaction }
       )
       // 建立Image資訊
@@ -86,7 +86,7 @@ class AuthController extends Validator {
     } catch (err) {
       // 回滾事務
       await transaction.rollback()
-      // 回滾imgur照片新增
+      // 回滾storage照片新增
       if (deleteData) {
         await deleteImage(deleteData, storageType)
       }
