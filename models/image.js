@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'entityId',
         scope: { entityType: 'pet' }
       })
+      Image.belongsTo(models.User, {
+        foreignKey: 'entityId',
+        scope: { entityType: 'user' }
+      })
     }
   }
   Image.init(
