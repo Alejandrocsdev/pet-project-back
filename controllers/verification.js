@@ -1,5 +1,7 @@
 // Sequelize跟Models
 const { sequelize, User, Otp } = require('../models')
+// Sequelize的Operator
+const { Op } = require('sequelize')
 // 異步錯誤處理中間件
 const { asyncError } = require('../middlewares')
 // 成功回應
@@ -63,11 +65,11 @@ class VerificationController extends Validator {
 
       if (method === 'email') {
         await sendMail(methodData, otp)
-        sucRes(res, 200, 'Email sent successfully.')
+        sucRes(res, 200, 'Email with OTP sent successfully.')
       } else {
         const phone = '+886' + methodData.slice(1)
         await sendSMS(phone, otp)
-        sucRes(res, 200, 'SMS sent successfully.')
+        sucRes(res, 200, 'SMS with OTP sent successfully.')
       }
     } catch (err) {
       // 回滾事務
@@ -124,6 +126,52 @@ class VerificationController extends Validator {
 
       // 提交事務
       await transaction.commit()
+    } catch (err) {
+      // 回滾事務
+      await transaction.rollback()
+      next(err)
+    }
+  })
+
+  sendPassword = asyncError(async (req, res, next) => {
+    // 驗證請求主體
+    this.validateBody(req.body)
+    // method === 'email' || 'phone'
+    const [method, methodData] = Object.entries(req.body)[0]
+
+    // 生成臨時密碼
+    const password = encrypt.password(12)
+
+    const [hashedPassword, user] = await Promise.all([
+      // 密碼加密
+      encrypt.hash(password),
+      // 檢查User是否存在
+      User.findOne({ where: {
+          [Op.or]: [{ email: methodData }, { phone: methodData }]
+        }
+      })
+    ])
+    // 驗證資料是否存在
+    this.validateData([user])
+
+    // 建立事務
+    const transaction = await sequelize.transaction()
+
+    try {
+      // 更新User密碼
+      await User.update({ password: hashedPassword }, { where: { id: user.id }, transaction })
+
+      // 提交事務
+      await transaction.commit()
+
+      if (method === 'email') {
+        await sendMail(methodData, password)
+        sucRes(res, 200, 'Email with password sent successfully.')
+      } else {
+        const phone = '+886' + methodData.slice(1)
+        await sendSMS(phone, password)
+        sucRes(res, 200, 'SMS with password sent successfully.')
+      }
     } catch (err) {
       // 回滾事務
       await transaction.rollback()

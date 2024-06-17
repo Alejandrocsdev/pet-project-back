@@ -5,6 +5,7 @@ require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const srp = require('secure-random-password')
 
 // 自定義錯誤訊息
 const CustomError = require('../errors/CustomError')
@@ -38,6 +39,17 @@ class Encrypt {
     }
   }
 
+  password(length) {
+    try {
+      return srp.randomPassword({
+        length: length,
+        characters: srp.digits + srp.lower + srp.upper + srp.symbols
+      })
+    } catch (err) {
+      throw new CustomError(500, 'Fail to generate temporary password.')
+    }
+  }
+
   otp() {
     try {
       const code = crypto.randomBytes(4).toString('hex')
@@ -52,7 +64,10 @@ class Encrypt {
     try {
       const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn })
       const decoded = jwt.decode(token)
-      const tokenData = { value: token, validity: { iat: decoded.iat, exp: decoded.exp, expiresIn } }
+      const tokenData = {
+        value: token,
+        validity: { iat: decoded.iat, exp: decoded.exp, expiresIn }
+      }
       return tokenData
     } catch (err) {
       throw new CustomError(500, 'Fail to sign token.')
