@@ -99,7 +99,7 @@ class PetsController extends Validator {
         await createPet.reload({ include: [{ model: Image, as: 'image', attributes: ['link'] }] })
       }
 
-      sucRes(res, 201, `Created new Pets table data successfully.`, createPet)
+      sucRes(res, 201, `Created new Pets table data successfully.`, 'createPet')
     } catch (err) {
       // 回滾事務
       await transaction.rollback()

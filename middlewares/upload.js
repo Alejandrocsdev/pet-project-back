@@ -11,15 +11,18 @@ const storage = multer.diskStorage({
 })
 
 const localUpload = multer({ storage })
-const cloudUpload = multer()
+const directUpload = multer()
 
 function upload(type) {
   switch (true) {
     case type === 'local':
       return localUpload.single('image')
       break
-    case type === 'imgur' || type === 'cloudinary':
-      return cloudUpload.single('image')
+    case type === 'imgur':
+      return directUpload.single('image')
+      break
+    case type === 'cloudinary':
+      return localUpload.single('image')
       break
   }
 }
