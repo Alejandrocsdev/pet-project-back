@@ -16,8 +16,11 @@ class Imgur {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       )
       const data = response.data.data
-      const link = data.link
+      let link = data.link
       const deleteData = data.deletehash
+
+      if (link.endsWith('.jpeg')) link = link.slice(0, -5) + '.jpg'
+
       return { link, deleteData }
     } catch (err) {
       throw new CustomError(500, 'Failed to upload local image. (imgur)')

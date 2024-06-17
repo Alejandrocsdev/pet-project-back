@@ -599,31 +599,21 @@ No custom operational error.
     "result": [
         {
             "id": 1,
-            "name": "Letitia",
-            "age": 5,
+            "name": "Corrine",
+            "age": 14,
             "size": "medium",
-            "image": "https://loremflickr.com/320/240/dog/?random=55.74243960285878",
-            "breedId": 10,
-            "userId": 3,
-            "createdAt": "2024-06-13T14:42:40.000Z",
-            "updatedAt": "2024-06-13T14:42:40.000Z",
+            "breedId": 4,
+            "userId": 2,
+            "createdAt": "2024-06-17T04:22:49.000Z",
+            "updatedAt": "2024-06-17T04:22:49.000Z",
             "breed": {
-                "id": 10,
-                "name": "Bernese Mountain Dog",
-                "createdAt": "2024-06-13T14:42:37.000Z",
-                "updatedAt": "2024-06-13T14:42:37.000Z"
+                "name": "McNab dog"
+            },
+            "image": {
+                "link": "https://i.imgur.com/eBJWiig.jpeg"
             },
             "owner": {
-                "id": 3,
-                "username": "user2",
-                "email": "user2@gmail.com",
-                "phone": "+886934567890",
-                "city": "高雄市",
-                "district": "橋頭區",
-                "road": "村中路",
-                "address": "5號5樓",
-                "createdAt": "2024-06-13T14:42:37.000Z",
-                "updatedAt": "2024-06-13T14:42:37.000Z"
+                "username": "user1"
             }
         },
         {...}
@@ -655,31 +645,21 @@ No custom operational error.
     "message": "Get Pets table data from id 1 successfully.",
     "result": {
         "id": 1,
-        "name": "Letitia",
-        "age": 5,
+        "name": "Corrine",
+        "age": 14,
         "size": "medium",
-        "image": "https://loremflickr.com/320/240/dog/?random=55.74243960285878",
-        "breedId": 10,
-        "userId": 3,
-        "createdAt": "2024-06-13T14:42:40.000Z",
-        "updatedAt": "2024-06-13T14:42:40.000Z",
+        "breedId": 4,
+        "userId": 2,
+        "createdAt": "2024-06-17T04:22:49.000Z",
+        "updatedAt": "2024-06-17T04:22:49.000Z",
         "breed": {
-            "id": 10,
-            "name": "Bernese Mountain Dog",
-            "createdAt": "2024-06-13T14:42:37.000Z",
-            "updatedAt": "2024-06-13T14:42:37.000Z"
+            "name": "McNab dog"
+        },
+        "image": {
+            "link": "https://i.imgur.com/eBJWiig.jpeg"
         },
         "owner": {
-            "id": 3,
-            "username": "user2",
-            "email": "user2@gmail.com",
-            "phone": "+886934567890",
-            "city": "高雄市",
-            "district": "橋頭區",
-            "road": "村中路",
-            "address": "5號5樓",
-            "createdAt": "2024-06-13T14:42:37.000Z",
-            "updatedAt": "2024-06-13T14:42:37.000Z"
+            "username": "user1"
         }
     }
 }
@@ -717,9 +697,15 @@ No custom operational error.
 | name    | O        | str  |                      |
 | age     | O        | int  | positive             |
 | size    | O        | str  | small, medium, large |
-| image   | X        | str  |                      |
 | breedId | O        | int  |                      |
 | userId  | O        | int  |                      |
+
+**Form Data :**
+
+| File     | Note                  |
+| -------- | --------------------- |
+| mimetype | image/jpeg, image/png |
+| size     | 3MB                   |
 
 **Response (Success) :**
 
@@ -730,14 +716,16 @@ No custom operational error.
     "message": "Created new Pets table data successfully.",
     "result": {
         "id": 11,
-        "name": "Ottilie",
-        "age": 1,
-        "size": "small",
-        "image": "https://loremflickr.com/320/240/dog/?random=17.28810770319662",
-        "breedId": 1,
-        "userId": 1,
-        "updatedAt": "2024-06-13T14:53:10.477Z",
-        "createdAt": "2024-06-13T14:53:10.477Z"
+        "name": "Blacky",
+        "age": 10,
+        "size": "large",
+        "breedId": 5,
+        "userId": 2,
+        "createdAt": "2024-06-17T04:48:17.000Z",
+        "updatedAt": "2024-06-17T04:48:17.000Z",
+        "image": {
+            "link": "https://i.imgur.com/UTijqmp.jpg"
+        }
     }
 }
 ```
@@ -756,7 +744,6 @@ No custom operational error.
     "message": "Age must be a positive number"
     "message": "Age must be a number"
     "message": "Size must be one of [small, medium, large]"
-    "message": "Image must be a string"
     "message": "breedId is required"
     "message": "breedId must be an integer"
     "message": "breedId must be a positive number"
@@ -765,6 +752,8 @@ No custom operational error.
     "message": "userId must be an integer"
     "message": "userId must be a positive number"
     "message": "userId must be a number"
+    "message": "Mimetype must be one of [image/jpeg, image/png]"
+    "message": "Size must be less than or equal to 3145728"
 }
 ```
 
@@ -801,8 +790,14 @@ No custom operational error.
 | name    | O        | str  |                      |
 | age     | O        | int  | positive             |
 | size    | O        | str  | small, medium, large |
-| image   | X        | str  |                      |
 | breedId | O        | int  |                      |
+
+**Form Data :**
+
+| File     | Note                  |
+| -------- | --------------------- |
+| mimetype | image/jpeg, image/png |
+| size     | 3MB                   |
 
 **Response (Success) :**
 
@@ -810,7 +805,7 @@ No custom operational error.
 {
     "statusType": "Success",
     "statusCode": "200 OK",
-    "message": "Updated table data with id 1 successfully."
+    "message": "Updated table data with id 20 successfully."
 }
 ```
 
@@ -828,11 +823,12 @@ No custom operational error.
     "message": "Age must be a positive number"
     "message": "Age must be a number"
     "message": "Size must be one of [small, medium, large]"
-    "message": "Image must be a string"
     "message": "breedId is required"
     "message": "breedId must be an integer"
     "message": "breedId must be a positive number"
     "message": "breedId must be a number"
+    "message": "Mimetype must be one of [image/jpeg, image/png]"
+    "message": "Size must be less than or equal to 3145728"
 }
 ```
 

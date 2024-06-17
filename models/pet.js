@@ -17,9 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       })
       Pet.hasOne(models.Image, {
         foreignKey: 'entityId',
-        as: 'image',
-        constraints: false,
-        scope: { entityType: 'pet' }
+        scope: { entityType: 'pet' },
+        as: 'image'
       })
     }
   }

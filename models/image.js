@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Image.belongsTo(models.Pet, {
         foreignKey: 'entityId',
-        constraints: false,
         scope: { entityType: 'pet' }
       })
     }

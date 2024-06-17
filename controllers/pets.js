@@ -88,12 +88,9 @@ class PetsController extends Validator {
     try {
       // 建立Pet資訊
       const createPet = await Pet.create({ name, age, size, breedId, userId }, { transaction })
-
-      // 如有上傳照片: 建立Image資訊
-      if (petImage) {
-        await Image.create({ link, deleteData, entityId: createPet.id, entityType: 'pet' },{ transaction })
-      }
-
+      // 建立Image資訊
+      await Image.create( { link, deleteData, entityId: createPet.id, entityType: 'pet' }, { transaction })
+      
       // 提交事務
       await transaction.commit()
 
@@ -128,10 +125,10 @@ class PetsController extends Validator {
     const [pet, breed, image] = await Promise.all([
       Pet.findByPk(petId),
       Breed.findByPk(breedId),
-      Image.findOne({ where: { entityId: petId } })
+      Image.findOne({ where: { entityId: petId, entityType: 'pet' } })
     ])
-    // 驗證資料是否存在(image資料可能為null)
-    this.validateData([pet, breed])
+    // 驗證資料是否存在
+    this.validateData([pet, breed, image])
 
     // 上傳照片(optional)
     const petImage = await uploadImage(file, storageType)
@@ -146,22 +143,22 @@ class PetsController extends Validator {
       await Pet.update({ name, age, size, breedId }, { where: { id: petId }, tansaction })
 
       // 新增Image資訊
-      if (!image?.link && petImage?.link) {
-        await Image.create({ link, deleteData, entityId: petId, entityType: 'pet' },{ transaction })
-      } 
+      if (!image.link && link) {
+        await Image.create({ link, deleteData, entityId: petId, entityType: 'pet' }, { transaction })
+      }
       // 更新Image資訊
-      else if (image?.link && petImage?.link) {
-        await Image.update({ link, deleteData }, { where: { entityId: petId }, transaction })
+      else if (image.link && link) {
+        await Image.update({ link, deleteData }, { where: { entityId: petId, entityType: 'pet' }, transaction })
       }
 
       // 提交事務
       await transaction.commit()
 
       // 如更新Image資訊: 刪除imgur原始照片
-      if (image?.link && petImage?.link) {
+      if (image.link && link) {
         await deleteImage(image.deleteData, storageType)
       }
-        
+
       sucRes(res, 200, `Updated table data with id ${petId} successfully.`)
     } catch (err) {
       // 回滾事務
@@ -175,13 +172,41 @@ class PetsController extends Validator {
   })
 
   deletePet = asyncError(async (req, res, next) => {
+    // 請求參數(checkId中間件已驗證過)
     const { petId } = req.params
-    const pet = await Pet.findByPk(petId)
-    this.validateData([pet])
-
-    await Pet.destroy({ where: { id: petId } })
-
-    sucRes(res, 200, `Deleted table data with id ${petId} successfully.`)
+  
+    // 讀取單一資料
+    const [pet, image] = await Promise.all([
+      Pet.findByPk(petId),
+      Image.findOne({ where: { entityId: petId, entityType: 'pet' } })
+    ])
+    // 驗證資料是否存在
+    this.validateData([pet, image])
+  
+    // 建立事務
+    const transaction = await sequelize.transaction()
+  
+    try {
+      // 刪除Pet/Image資訊
+      await Promise.all([
+        Pet.destroy({ where: { id: petId } }, transaction),
+        Image.destroy({ where: { entityId: petId, entityType: 'pet' }, transaction })
+      ])
+  
+      // 提交事務
+      await transaction.commit()
+  
+      // 刪除imgur照片
+      if (image.deleteData) {
+        await deleteImage(image.deleteData, storageType)
+      }
+  
+      sucRes(res, 200, `Deleted table data with id ${petId} successfully.`)
+    } catch (error) {
+      // 回滾事務
+      await transaction.rollback()
+      next(err)
+    }
   })
 }
 
