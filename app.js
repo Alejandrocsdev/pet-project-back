@@ -8,7 +8,7 @@ const app = express()
 const port = Number(process.env.PORT) || 3000
 // 載入 Node.js 內建的 path 模組
 const path = require('path')
-// 
+//
 const helmet = require('helmet')
 // 中間件: 跨來源資源共用
 const cors = require('cors')
@@ -18,10 +18,12 @@ const { passportInit } = require('./config/passport')
 const routes = require('./routes')
 // 引入自訂中間件
 const { defaultRoute, globalError } = require('./middlewares')
-// 
+//
 app.use(helmet())
 // 使用cors中間件
 app.use(cors())
+//
+// app.use(express.urlencoded({ extended: false }))
 // 解析請求主體的 JSON 格式資料
 app.use(express.json())
 // 解析靜態資源的路徑

@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const srp = require('secure-random-password')
+const sha256 = require('./sha256')
 
 // 自定義錯誤訊息
 const CustomError = require('../errors/CustomError')
@@ -57,6 +58,33 @@ class Encrypt {
       return uppercaseCode
     } catch (err) {
       throw new CustomError(500, 'Fail to generate OTP.')
+    }
+  }
+
+  sha256(input) {
+    if (typeof input === 'string') {
+      return sha256(input)
+    } else {
+      throw new CustomError(500, 'Fail to hash using sha256.')
+    }
+  }
+
+  tradeNo(orderId) {
+    const timestamp = Date.now()
+    const tradeNo = `${orderId}${timestamp}`
+    if (tradeNo.length <= 20) {
+      return tradeNo
+    } else {
+      throw new CustomError(500, `TradeNo can't be more than 20 digits.`)
+    }
+  }
+
+  NETUrlEncode(str) {
+    if (typeof str === 'string') {
+      const customEncode = str.replace(/~/g, '%7E').replace(/%20/g, '+').replace(/'/g, '%27')
+      return customEncode
+    } else {
+      throw new CustomError(500, 'Fail to encode URL (.NET).')
     }
   }
 
