@@ -15,6 +15,7 @@ const encrypt = require('../utils/encrypt')
 // 發送器模組(email/phone)
 const sendMail = require('../config/email')
 const sendSMS = require('../config/phone')
+const smsType = process.env.SMS_TYPE
 // 自定義錯誤訊息
 const CustomError = require('../errors/CustomError')
 // Body驗證條件(base)
@@ -54,7 +55,10 @@ class VerificationController extends Validator {
     try {
       if (otpData) {
         // OTP已存在: 更新OTP
-        await Otp.update({ otp: hashedOtp, expireTime, attempts: 0 }, { where: { methodData }, transaction })
+        await Otp.update(
+          { otp: hashedOtp, expireTime, attempts: 0 },
+          { where: { methodData }, transaction }
+        )
       } else {
         // OTP不存在: 建立OTP
         await Otp.create({ methodData, otp: hashedOtp, expireTime }, { transaction })
@@ -65,11 +69,10 @@ class VerificationController extends Validator {
 
       if (method === 'email') {
         await sendMail(methodData, otp)
-        sucRes(res, 200, 'Email with OTP sent successfully.')
+        sucRes(res, 200, 'Email with OTP sent successfully (gmail).')
       } else {
-        const phone = '+886' + methodData.slice(1)
-        await sendSMS(phone, otp)
-        sucRes(res, 200, 'SMS with OTP sent successfully.')
+        await sendSMS(methodData, otp, smsType)
+        sucRes(res, 200, `SMS with OTP sent successfully. (${smsType})`)
       }
     } catch (err) {
       // 回滾事務
@@ -146,7 +149,8 @@ class VerificationController extends Validator {
       // 密碼加密
       encrypt.hash(password),
       // 檢查User是否存在
-      User.findOne({ where: {
+      User.findOne({
+        where: {
           [Op.or]: [{ email: methodData }, { phone: methodData }]
         }
       })
@@ -176,6 +180,21 @@ class VerificationController extends Validator {
       // 回滾事務
       await transaction.rollback()
       next(err)
+    }
+  })
+
+  smsDr = asyncError(async (req, res, next) => {
+    const smsresp = req.query.smsresp
+
+    if (smsresp) {
+      const decodedResp = querystring.unescape(smsresp)
+
+      const report = JSON.parse(decodedResp)
+      console.log('Delivery Report:', report)
+
+      sucRes(res, 200, '1|OK')
+    } else {
+      console.error('Missing smsresp parameter.')
     }
   })
 }
