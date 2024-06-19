@@ -1,7 +1,7 @@
 const axios = require('axios')
 const CustomError = require('../../../errors/CustomError')
 
-const API = process.env.IMGUR_BASE_URL
+const API = process.env.IMGUR_API
 const accessToken = process.env.IMGUR_ACCESS_TOKEN
 
 class Imgur {

@@ -16,12 +16,14 @@ class Cloudinary {
   async upload(file) {
     if (!file) return null
 
+    let deleteData = null
+
     try {
       const filePath = path.resolve(__dirname, '..', '..', '..', file.path)
       const data = await cloudinary.uploader.upload(filePath)
 
       const link = data.secure_url
-      const deleteData = data.public_id
+      deleteData = data.public_id
 
       fs.unlink(filePath, (err) => {
         if (err) throw new CustomError(500, 'Failed to delete temporary image after upload. (cloudinary)')
