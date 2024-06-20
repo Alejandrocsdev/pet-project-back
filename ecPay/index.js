@@ -2,24 +2,24 @@ const time = require('../utils/time')
 const encrypt = require('../utils/encrypt')
 
 function ecPay(orderId, payload) {
-  const { TotalAmount, TradeDesc, ItemName } = payload
+  const { TotalAmount, ItemName } = payload
 
   const params = {
     MerchantTradeNo: encrypt.tradeNo(orderId),
     MerchantTradeDate: time.tradeDate(),
     TotalAmount,
-    TradeDesc,
     ItemName,
+    TradeDesc: '商品訂單',
     ReturnURL: process.env.ECPAY_RETURN_URL,
     ClientBackURL: process.env.ECPAY_CLIENT_BACK_URL,
-    ChoosePayment: 'ALL',
     PlatformID: '',
     MerchantID: process.env.ECPAY_MERCHANT_ID,
     InvoiceMark: 'N',
-    IgnorePayment: '',
-    DeviceSource: '',
     EncryptType: '1',
-    PaymentType: 'aio'
+    PaymentType: 'aio',
+    ChoosePayment: 'ALL',
+    IgnorePayment: '',
+    DeviceSource: ''
   }
 
   const result = macValue(params)

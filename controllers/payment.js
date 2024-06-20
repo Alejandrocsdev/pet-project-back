@@ -13,7 +13,6 @@ const Joi = require('joi')
 // Body驗證條件(base)
 const schema = Joi.object({
   TotalAmount: Joi.string().required(),
-  TradeDesc: Joi.string().required(),
   ItemName: Joi.string().required()
 })
 

@@ -110,15 +110,18 @@ class VerificationController extends Validator {
       if (isMatch || expireTime <= Date.now() || attempts > 3) {
         if (isMatch) {
           const capitalizedMethod = method.charAt(0).toUpperCase() + method.slice(1)
+          // 刪除Otp資訊
+          await Otp.destroy({ where: { otp: hashedOtp } })
           sucRes(res, 200, `${capitalizedMethod} verified successfully.`)
         } else if (expireTime <= Date.now()) {
+          // 刪除Otp資訊
+          await Otp.destroy({ where: { otp: hashedOtp } })
           throw new CustomError(401, 'OTP was expired.')
         } else if (attempts > 3) {
+          // 刪除Otp資訊
+          await Otp.destroy({ where: { otp: hashedOtp } })
           throw new CustomError(429, 'Too many OTP input attempts.')
         }
-
-        // 刪除Otp資訊
-        await Otp.destroy({ where: { otp: hashedOtp } })
       }
       // 未達嘗試限制: 更新嘗試次數
       else {

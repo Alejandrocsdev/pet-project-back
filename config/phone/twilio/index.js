@@ -1,5 +1,5 @@
-const accountSid = process.env.Twilio_ACCOUNT_SID
-const authToken = process.env.Twilio_AUTH_TOKEN
+const accountSid = process.env.TWILIO_ACCOUNT_SID
+const authToken = process.env.TWILIO_AUTH_TOKEN
 
 const client = require('twilio')(accountSid, authToken)
 
@@ -8,7 +8,7 @@ const CustomError = require('../../../errors/CustomError')
 
 const options = (phone, otp) => {
   return {
-    from: process.env.Twilio_PHONE,
+    from: process.env.TWILIO_PHONE,
     to: phone,
     body: `Your OTP verification is: ${otp}.`
   }
