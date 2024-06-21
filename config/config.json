@@ -3,7 +3,7 @@
     "username": "root",
     "password": "password",
     "database": "pet_project",
-    "host": "127.0.0.1",
+    "host": "mysql-db",
     "dialect": "mysql"
   },
   "test": {
