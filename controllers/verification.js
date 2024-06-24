@@ -109,10 +109,9 @@ class VerificationController extends Validator {
       // OTP正確/OTP失效/嘗試次數過多: 刪除Otp資訊
       if (isMatch || expireTime <= Date.now() || attempts > 3) {
         if (isMatch) {
-          const capitalizedMethod = method.charAt(0).toUpperCase() + method.slice(1)
           // 刪除Otp資訊
           await Otp.destroy({ where: { otp: hashedOtp } })
-          sucRes(res, 200, `${capitalizedMethod} verified successfully.`)
+          sucRes(res, 200, `OTP verified with ${method} successfully.`)
         } else if (expireTime <= Date.now()) {
           // 刪除Otp資訊
           await Otp.destroy({ where: { otp: hashedOtp } })
